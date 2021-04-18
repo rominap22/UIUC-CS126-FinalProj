@@ -14,8 +14,7 @@ namespace naivebayes {
         void print();
         void play_game();
     private:
-        vector<Player> players;
-        Board board;
+        Board* board;
     };
 }
 

@@ -1,13 +1,16 @@
 #include <core/Card.h>
 #include <sstream>
+#include <iomanip>
 using std::stringstream;
 namespace naivebayes {
 
 
-    Card::Card(size_t rank, SUITS suits):rank{rank}, suits{suits} {
+    Card::Card(size_t rank, SUITS suits):rank{rank}, suits{suits}, is_face_up{false} {
 
     }
-
+    bool Card::get_face_up() {
+        return is_face_up;
+    }
     string Card::get_rank() const {
         if (rank == 1) {    //ace
             return "A";
@@ -40,7 +43,11 @@ namespace naivebayes {
         return "";
     }
     ostream& operator<<(ostream& out, const Card& card) {
-        out<<card.get_rank()<<" "<<card.get_suit()[0];   //e.g. "K C" if King of Clubs
+        if (card.is_face_up) {
+            out<<std::setw(2)<<card.get_rank()<<" "<<card.get_suit()[0];   //e.g. "K C" if King of Clubs
+        } else {
+            out<<"____";
+        }
         return out;
     }
     bool Card::is_k_or_q() {
@@ -48,5 +55,8 @@ namespace naivebayes {
     }
     int Card::get_rank_int() {
         return rank;
+    }
+    void Card::set_face_up(bool is_face_up) {
+        this->is_face_up = is_face_up;
     }
 }  // namespace naivebayes

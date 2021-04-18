@@ -17,23 +17,18 @@ class Card {
       HEARTS,
       SPADES
   };
-    static const SUITS SuitList[4];
     Card(size_t rank, SUITS suits);
+    bool get_face_up();
     friend ostream& operator<<(ostream& out, const Card& card);
     string get_rank() const;
     string get_suit() const;
     bool is_k_or_q();
     int get_rank_int();
+    void set_face_up(bool is_face_up);
 private:
     size_t rank;
     SUITS suits;
+    bool is_face_up;
 };
-    static const Card::SUITS SuitList[4] =
-            {
-                    Card::CLUBS,
-                    Card::DIAMONDS,
-                    Card::HEARTS,
-                    Card::SPADES
-            };
 }  // namespace naivebayes
 #endif //NAIVE_BAYES_CARD_H
