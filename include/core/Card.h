@@ -25,6 +25,7 @@ class Card {
     bool is_k_or_q();
     int get_rank_int();
     void set_face_up(bool is_face_up);
+    void print(ostream& out);   //shows card, either face up or face down
 private:
     size_t rank;
     SUITS suits;

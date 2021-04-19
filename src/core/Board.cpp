@@ -4,15 +4,29 @@
 
 #include "core/Board.h"
 #include <core/Player.h>
+#include <stdexcept>
 using std::vector;
 namespace naivebayes {
-    Board::Board() {
+    Board::Board(size_t seed) { //forcing same random sequence
+        srand(seed);    //seed random function
+        std::cout<<"seed = "<<seed<<std::endl;
     }
-    void Board::add_players(vector<Player*> players) {
+    void Board::add_players(vector<Player*> players, size_t num_decks) {
+        if (players.size() < 2) {
+            throw std::invalid_argument("must have at least 2 players");
+        }
+        for (size_t i = 0; i < players.size(); i++) {
+            if (players[i] == nullptr) {
+                throw std::invalid_argument("player is null");
+            }
+        }
         this->players = players;
+        this->get_deck(num_decks);     //number of decks
+        this->shuffle();
     }
     //stock pile deck of cards
     void Board::get_deck(size_t num_decks) {
+        //size_t num_decks = players.size() / 2;
         //clear stock
         stock.clear();
         //iterating over number of decks
@@ -23,12 +37,16 @@ namespace naivebayes {
                 switch (i) {
                     case 0:
                         suit = Card::CLUBS;
+                        break;
                     case 1:
                         suit = Card::DIAMONDS;
+                        break;
                     case 2:
                         suit = Card::HEARTS;
+                        break;
                     case 3:
                         suit = Card::SPADES;
+                        break;
                 }
                 //iterating over the ranks (Ace, 2-10, Jack, Queen, King)
                 for (size_t rank = 1; rank <= 13; rank++) {
@@ -52,16 +70,19 @@ namespace naivebayes {
     }
     Card Board::draw() {
         if (stock.empty()) {
+            std::cout<<"draw"<<std::endl;
             stock = discard;
+            discard.empty();    //clear the discard
             shuffle();
+            std::cout<<"XXXXXXXXXXXXXXXXXXXXX shuffle discard: size = "<<stock.size()<<std::endl;
         }
         Card card = stock[stock.size() - 1];    //last card
         stock.pop_back();                   //remove last card from stock
         return card;
     }
-    void Board::print() {
+    void Board::print(ostream& out) {
         for (size_t i = 0; i < players.size(); i++) {
-            players[i]->print();
+            players[i]->print(out);
         }
     }
     bool Board::turn() {
@@ -94,14 +115,14 @@ namespace naivebayes {
         }
         for (size_t rank = 1; rank <= 10; rank++) { //ignore already face up ones
             if (this_player->is_face_up(rank)) {
-                count[rank - 1] = 0;
+                count[rank - 1] = -1;
             }
         }
         //find max index in count
-        size_t max_count = 0;
+        int max_count = -1;
         size_t max_idx = 0;
         for (size_t i = 0; i < count.size(); i++) {
-            if (count[i] > max_count) {
+            if ((int) count[i] > max_count) {
                 max_count = count[i];
                 max_idx = i;
             }
@@ -110,5 +131,14 @@ namespace naivebayes {
     }
     void Board::discard_card(Card card) {
         discard.push_back(card);
+    }
+    void Board::start_game() {
+        //dealing 10 cards face down to each player
+        for (size_t i = 0; i < 10; i++) {
+            for (size_t i = 0; i < players.size(); i++) {
+                Card card = draw();
+                players[i]->add_card(card);          //deal the card to the player
+            }
+        }
     }
 }

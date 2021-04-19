@@ -6,12 +6,12 @@
 #include "core/Card.h"
 #include "core/Player.h"
 #include "core/Board.h"
+#include <time.h>
 using std::vector;
 namespace naivebayes {
     Game::Game(size_t num_players) {
-        board = new Board();
-        board->get_deck(num_players / 2);     //number of decks
-        board->shuffle();
+        //diff set of #'s every game
+        board = new Board((size_t) time(NULL));  //time elapsed in unix time
         //number of players
         vector<Player*> players;
         for (size_t i = 0; i < num_players; i++) {
@@ -19,18 +19,12 @@ namespace naivebayes {
             name.append(1, (char) ((size_t) '1' + i));
             players.push_back(new Player(name, board));
         }
-        board->add_players(players);
-        //dealing 10 cards face down to each player
-        for (size_t i = 0; i < 10; i++) {
-            for (size_t i = 0; i < num_players; i++) {
-                Card card = board->draw();
-                players[i]->add_card(card);          //deal the card to the player
-            }
-        }
+        board->add_players(players, players.size() / 2);
+        board->start_game();
     }
 
     void Game::print() {
-        board->print();
+        board->print(std::cout);
     }
     void Game::play_game() {
         bool is_done = false;

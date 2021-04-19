@@ -59,4 +59,7 @@ namespace naivebayes {
     void Card::set_face_up(bool is_face_up) {
         this->is_face_up = is_face_up;
     }
+    void Card::print(ostream& out) {
+        out<<std::setw(2)<<get_rank()<<" "<<get_suit()[0];   //e.g. "K C" if King of Clubs
+    }
 }  // namespace naivebayes
