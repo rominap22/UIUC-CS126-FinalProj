@@ -8,6 +8,7 @@ namespace naivebayes {
     Card::Card(size_t rank, SUITS suits):rank{rank}, suits{suits}, is_face_up{false} {
 
     }
+    Card::Card():rank{1}, suits{SUITS::SPADES}, is_face_up{false} {}
     bool Card::get_face_up() {
         return is_face_up;
     }

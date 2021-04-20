@@ -7,11 +7,18 @@
 #include "core/Player.h"
 #include "core/Board.h"
 #include <time.h>
+#include <sstream>
 using std::vector;
+using std::stringstream;
 namespace naivebayes {
-    Game::Game(size_t num_players) {
+    Game::Game(size_t num_players):Game(num_players, (size_t) time(NULL)) {
+    }
+    Game::Game():Game(2) {
+
+    }
+    Game::Game(size_t num_players, size_t seed) {
         //diff set of #'s every game
-        board = new Board((size_t) time(NULL));  //time elapsed in unix time
+        board = new Board(seed);  //time elapsed in unix time
         //number of players
         vector<Player*> players;
         for (size_t i = 0; i < num_players; i++) {
@@ -22,14 +29,27 @@ namespace naivebayes {
         board->add_players(players, players.size() / 2);
         board->start_game();
     }
-
-    void Game::print() {
-        board->print(std::cout);
+    string Game::to_string() {
+        stringstream ss;
+        board->print(ss);
+        return ss.str();
     }
     void Game::play_game() {
         bool is_done = false;
         while (!is_done) {
             is_done = board->turn();
         }
+    }
+    bool Game::turn() {
+        return board->turn();
+    }
+    bool Game::step() {
+        return board->step();
+    }
+    bool Game::is_over() {
+        return board->is_over();
+    }
+    string Game::game_summary() {
+        return board->game_summary();
     }
 }

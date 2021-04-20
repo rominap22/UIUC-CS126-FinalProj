@@ -5,12 +5,15 @@
 #include "core/Board.h"
 #include <core/Player.h>
 #include <stdexcept>
+#include <time.h>
 using std::vector;
 namespace naivebayes {
-    Board::Board(size_t seed) { //forcing same random sequence
+    Board::Board(size_t seed):current_player{0}, is_done{true} { //forcing same random sequence
         srand(seed);    //seed random function
         std::cout<<"seed = "<<seed<<std::endl;
     }
+    Board::Board():Board((size_t) time(NULL)) {}
+
     void Board::add_players(vector<Player*> players, size_t num_decks) {
         if (players.size() < 2) {
             throw std::invalid_argument("must have at least 2 players");
@@ -23,6 +26,10 @@ namespace naivebayes {
         this->players = players;
         this->get_deck(num_decks);     //number of decks
         this->shuffle();
+        current_player = players.size() - 1;
+    }
+    void Board::add_players(vector<Player*> players) {
+        add_players(players, players.size() / 2);
     }
     //stock pile deck of cards
     void Board::get_deck(size_t num_decks) {
@@ -70,11 +77,9 @@ namespace naivebayes {
     }
     Card Board::draw() {
         if (stock.empty()) {
-            std::cout<<"draw"<<std::endl;
             stock = discard;
             discard.empty();    //clear the discard
             shuffle();
-            std::cout<<"XXXXXXXXXXXXXXXXXXXXX shuffle discard: size = "<<stock.size()<<std::endl;
         }
         Card card = stock[stock.size() - 1];    //last card
         stock.pop_back();                   //remove last card from stock
@@ -89,7 +94,6 @@ namespace naivebayes {
         for (size_t i = 0; i < players.size(); i++) {
             players[i]->turn();
             std::cout<<players[i]->get_name()<<" turn over"<<std::endl;
-            std::cout<<"################################"<<std::endl<<std::endl;
             if (players[i]->is_game_over()) {
                 std::cout<<players[i]->get_name()<<" has won"<<std::endl;
                 return true;
@@ -140,5 +144,38 @@ namespace naivebayes {
                 players[i]->add_card(card);          //deal the card to the player
             }
         }
+    }
+    bool Board::step() {    //intermediate sequence of replacing cards
+        if (is_done) {  //if done, go to next player
+            current_player = (current_player + 1) % players.size();
+            players[current_player]->next_card();   //draws the next card
+            is_done = false;
+            return false;
+        }
+        is_done = players[current_player]->step();  //take turn
+        if (is_done) {  //if 2nd player done, turn over
+            std::cout<<players[current_player]->get_name()<<" turn over"<<std::endl;
+        }
+        if (players[current_player]->is_game_over()) {
+            std::cout<<players[current_player]->get_name()<<" has won"<<std::endl;
+            return true;
+        }
+        return is_done;
+    }
+    bool Board::is_over() {
+        for (size_t i = 0; i < players.size(); i++) {
+            if (players[i]->is_game_over()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    string Board::game_summary() {
+        for (size_t i = 0; i < players.size(); i++) {
+            if (players[i]->is_game_over()) {
+                return players[i]->get_name() + " has won!";
+            }
+        }
+        return "no winner yet";
     }
 }

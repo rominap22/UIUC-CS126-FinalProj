@@ -1,10 +1,10 @@
-#include <visualizer/naive_bayes_app.h>
+#include <visualizer/game_app.h>
 
-using naivebayes::visualizer::NaiveBayesApp;
+using naivebayes::visualizer::GameApp;
 
-void prepareSettings(NaiveBayesApp::Settings* settings) {
+void prepareSettings(GameApp::Settings* settings) {
   settings->setResizable(false);
 }
 
 // This line is a macro that expands into an "int main()" function.
-CINDER_APP(NaiveBayesApp, ci::app::RendererGl, prepareSettings);
+CINDER_APP(GameApp, ci::app::RendererGl, prepareSettings);

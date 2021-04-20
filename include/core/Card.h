@@ -18,6 +18,7 @@ class Card {
       SPADES
   };
     Card(size_t rank, SUITS suits);
+    Card();
     bool get_face_up();
     friend ostream& operator<<(ostream& out, const Card& card);
     string get_rank() const;

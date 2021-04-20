@@ -20,10 +20,14 @@ namespace naivebayes {
         string get_name();
         bool is_face_up(size_t rank);
         bool is_game_over();
+        bool step();
+        Card next_card();
     private:
         string name;
         vector<Card> hand;
         Board* board;
+        bool is_playable;
+        Card to_be_played;
     };
 }
 

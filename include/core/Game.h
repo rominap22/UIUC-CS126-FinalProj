@@ -11,8 +11,14 @@ namespace naivebayes {
     class Game {
     public:
         Game(size_t num_players);
-        void print();
+        Game();
+        Game(size_t num_players, size_t seed);
+        string to_string();
         void play_game();
+        bool turn();
+        bool step();
+        bool is_over();
+        string game_summary();
     private:
         Board* board;
     };

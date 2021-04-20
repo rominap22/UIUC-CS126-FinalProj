@@ -55,7 +55,7 @@ list(APPEND CORE_SOURCE_FILES src/core/Card.cc
                                 src/core/Board.cpp)
 
 list(APPEND SOURCE_FILES    ${CORE_SOURCE_FILES}
-                            src/visualizer/naive_bayes_app.cc
+        src/visualizer/game_app.cc
                             src/visualizer/sketchpad.cc)
 
 list(APPEND TEST_FILES tests/game_test.cc)
