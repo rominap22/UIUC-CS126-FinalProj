@@ -149,6 +149,7 @@ namespace naivebayes {
         if (is_done) {  //if done, go to next player
             current_player = (current_player + 1) % players.size();
             players[current_player]->next_card();   //draws the next card
+
             is_done = false;
             return false;
         }
@@ -177,5 +178,15 @@ namespace naivebayes {
             }
         }
         return "no winner yet";
+    }
+    bool Board::is_jack() {
+        std::cout<<"board line 182: "<<current_player<<" "<<players[current_player]->is_jack()<<std::endl;
+        return players[current_player]->is_jack();
+    }
+    void Board::place_jack(size_t rank) {
+        players[current_player]->place_jack(rank);
+    }
+    bool Board::is_rank_good(size_t rank) {
+        return players[current_player]->is_rank_good(rank);
     }
 }

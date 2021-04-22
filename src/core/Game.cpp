@@ -52,4 +52,13 @@ namespace naivebayes {
     string Game::game_summary() {
         return board->game_summary();
     }
+    bool Game::is_jack() {
+        return board->is_jack();
+    }
+    void Game::place_jack(size_t rank) {
+        board->place_jack(rank);
+    }
+    bool Game::is_rank_good(size_t rank) {
+        return board->is_rank_good(rank);
+    }
 }

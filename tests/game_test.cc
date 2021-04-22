@@ -79,7 +79,7 @@ namespace naivebayes {
         }
         stringstream ss;
         player.print(ss);
-        REQUIRE(ss.str() == "Name: ____, ____, ____, ____, ____, ____, ____, ____, ____, ____ Turn over.\n");
+        REQUIRE(ss.str() == "Name: ____, ____, ____, ____, ____, ____, ____, ____, ____, ____\n");
     }
     TEST_CASE("Player turn") {
         Board* board = new Board(1);
@@ -92,8 +92,8 @@ namespace naivebayes {
         board->start_game();
         stringstream ss;
         board->print(ss);
-        REQUIRE(ss.str() == "Player 1: ____, ____, ____, ____, ____, ____, ____, ____, ____, ____ Turn over.\n"
-                            "Player 2: ____, ____, ____, ____, ____, ____, ____, ____, ____, ____ Turn over.\n");
+        REQUIRE(ss.str() == "Player 1: ____, ____, ____, ____, ____, ____, ____, ____, ____, ____\n"
+                            "Player 2: ____, ____, ____, ____, ____, ____, ____, ____, ____, ____\n");
     }
     TEST_CASE("Player get name") {
         Board* board = new Board(1);
@@ -120,7 +120,7 @@ namespace naivebayes {
         }
         stringstream ss;
         player1->print(ss);
-        REQUIRE(ss.str() == "Player 1: ____, ____, ____, ____, ____,  6 S, ____, ____,  9 D, 10 H Turn over.\n");
+        REQUIRE(ss.str() == "Player 1: ____, ____, ____, ____, ____,  6 S, ____, ____,  9 D, 10 H\n");
     }
     TEST_CASE("Player game over") {
         Board *board = new Board(1);
@@ -143,7 +143,7 @@ namespace naivebayes {
         }
         stringstream ss;
         players[next]->print(ss);
-        REQUIRE(ss.str() == "Player 2:  J S,  2 H,  3 D,  4 C,  5 C,  J C,  7 H,  J D,  9 C, 10 S Turn over.\n");
+        REQUIRE(ss.str() == "Player 2:  J S,  2 H,  3 D,  4 C,  5 C,  J C,  7 H,  J D,  9 C, 10 S has won\n");
     }
     TEST_CASE("Board less than 2 players") {
         Board *board = new Board(1);
@@ -165,9 +165,9 @@ namespace naivebayes {
         board->add_players(players, players.size() / 2);
         stringstream ss;
         board->print(ss);
-        REQUIRE(ss.str() == "Player 1:  Turn over.\n"
-                            "Player 2:  Turn over.\n"
-                            "Player 3:  Turn over.\n");
+        REQUIRE(ss.str() == "Player 1: \n"
+                            "Player 2: \n"
+                            "Player 3: \n");
     }
     TEST_CASE("Board 1 null player, 1 correct player") {
         Board *board = new Board(1);
@@ -205,22 +205,22 @@ namespace naivebayes {
         board->add_players(players, players.size() / 2);
         stringstream ss;
         board->print(ss);
-        REQUIRE(ss.str() == "Player 1:  Turn over.\n"
-                            "Player 2:  Turn over.\n"
-                            "Player 3:  Turn over.\n");
+        REQUIRE(ss.str() == "Player 1: \n"
+                            "Player 2: \n"
+                            "Player 3: \n");
         board->start_game();
         stringstream ss1;
         board->print(ss1);
-        REQUIRE(ss1.str() == "Player 1: ____, ____, ____, ____, ____, ____, ____, ____, ____, ____ Turn over.\n"
-                             "Player 2: ____, ____, ____, ____, ____, ____, ____, ____, ____, ____ Turn over.\n"
-                             "Player 3: ____, ____, ____, ____, ____, ____, ____, ____, ____, ____ Turn over.\n");
+        REQUIRE(ss1.str() == "Player 1: ____, ____, ____, ____, ____, ____, ____, ____, ____, ____\n"
+                             "Player 2: ____, ____, ____, ____, ____, ____, ____, ____, ____, ____\n"
+                             "Player 3: ____, ____, ____, ____, ____, ____, ____, ____, ____, ____\n");
         SECTION("Board turn") {
             board->turn();
             stringstream ss1;
             board->print(ss1);
-            REQUIRE(ss1.str() == "Player 1:  A D, ____, ____,  4 D,  5 D, ____, ____, ____, ____, ____ Turn over.\n"
-                                 "Player 2: ____, ____, ____, ____, ____, ____, ____, ____, ____, ____ Turn over.\n"
-                                 "Player 3:  J D,  2 C, ____,  4 S,  J C,  6 H, ____, ____, ____, ____ Turn over.\n");
+            REQUIRE(ss1.str() == "Player 1:  A D, ____, ____,  4 D,  5 D, ____, ____, ____, ____, ____\n"
+                                 "Player 2: ____, ____, ____, ____, ____, ____, ____, ____, ____, ____\n"
+                                 "Player 3:  J D,  2 C, ____,  4 S,  J C,  6 H, ____, ____, ____, ____\n");
         }
     }
     TEST_CASE("Player discard pile construction") {
@@ -248,7 +248,7 @@ namespace naivebayes {
         }
         stringstream ss;
         players[next]->print(ss);
-        REQUIRE(ss.str() == "Player 1:  A C,  2 D,  3 S,  4 S,  5 D,  6 C,  7 H,  8 S,  9 S, 10 H Turn over.\n");
+        REQUIRE(ss.str() == "Player 1:  A C,  2 D,  3 S,  4 S,  5 D,  6 C,  7 H,  8 S,  9 S, 10 H has won\n");
     }
     TEST_CASE("Select best rank") {
         Board *board = new Board(1);
@@ -262,15 +262,15 @@ namespace naivebayes {
         board->add_players(players, players.size() / 2);
         stringstream ss;
         board->print(ss);
-        REQUIRE(ss.str() == "Player 1:  Turn over.\n"
-                            "Player 2:  Turn over.\n"
-                            "Player 3:  Turn over.\n");
+        REQUIRE(ss.str() == "Player 1: \n"
+                            "Player 2: \n"
+                            "Player 3: \n");
         board->start_game();
         stringstream ss1;
         board->print(ss1);
-        REQUIRE(ss1.str() == "Player 1: ____, ____, ____, ____, ____, ____, ____, ____, ____, ____ Turn over.\n"
-                             "Player 2: ____, ____, ____, ____, ____, ____, ____, ____, ____, ____ Turn over.\n"
-                             "Player 3: ____, ____, ____, ____, ____, ____, ____, ____, ____, ____ Turn over.\n");
+        REQUIRE(ss1.str() == "Player 1: ____, ____, ____, ____, ____, ____, ____, ____, ____, ____\n"
+                             "Player 2: ____, ____, ____, ____, ____, ____, ____, ____, ____, ____\n"
+                             "Player 3: ____, ____, ____, ____, ____, ____, ____, ____, ____, ____\n");
         for (size_t i = 0; i < players.size(); i++) {
             std::cout<<players[i]->get_name()<<" before: ";
             players[i]->print(std::cout);
@@ -280,43 +280,141 @@ namespace naivebayes {
         }
         stringstream ss2;
         players[2]->print(ss2);
-        REQUIRE(ss2.str() == "Player 3:  J D,  2 C, ____,  4 S,  J C,  6 H, ____, ____, ____, ____ Turn over.\n");
+        REQUIRE(ss2.str() == "Player 3:  J D,  2 C, ____,  4 S,  J C,  6 H, ____, ____, ____, ____\n");
     }
     TEST_CASE("Game print 2 players") {
         Game game(2, 1);
         stringstream ss;
         ss<<game.to_string();
-        REQUIRE(ss.str() == "Player 1: ____, ____, ____, ____, ____, ____, ____, ____, ____, ____ Turn over.\n"
-                            "Player 2: ____, ____, ____, ____, ____, ____, ____, ____, ____, ____ Turn over.\n");
+        REQUIRE(ss.str() == "Player 1: ____, ____, ____, ____, ____, ____, ____, ____, ____, ____\n"
+                            "Player 2: ____, ____, ____, ____, ____, ____, ____, ____, ____, ____\n");
     }
     TEST_CASE("Game play game 2 players") {
         Game game(2, 1);
         stringstream ss;
         game.play_game();
         ss<<game.to_string();
-        REQUIRE(ss.str() == "Player 1:  A C,  2 C,  3 C, ____,  5 D,  6 S, ____,  8 C,  9 D, 10 H Turn over.\n"
-                            "Player 2:  J S,  2 H,  3 D,  4 C,  5 C,  J C,  7 H,  J D,  9 C, 10 S Turn over.\n");    }
+        REQUIRE(ss.str() == "Player 1:  A C,  2 C,  3 C, ____,  5 D,  6 S, ____,  8 C,  9 D, 10 H\n"
+                            "Player 2:  J S,  2 H,  3 D,  4 C,  5 C,  J C,  7 H,  J D,  9 C, 10 S has won\n");    }
     TEST_CASE("Game print 6") {
         Game game(6, 1);
         stringstream ss;
         ss<<game.to_string();
-        REQUIRE(ss.str() == "Player 1: ____, ____, ____, ____, ____, ____, ____, ____, ____, ____ Turn over.\n"
-                            "Player 2: ____, ____, ____, ____, ____, ____, ____, ____, ____, ____ Turn over.\n"
-                            "Player 3: ____, ____, ____, ____, ____, ____, ____, ____, ____, ____ Turn over.\n"
-                            "Player 4: ____, ____, ____, ____, ____, ____, ____, ____, ____, ____ Turn over.\n"
-                            "Player 5: ____, ____, ____, ____, ____, ____, ____, ____, ____, ____ Turn over.\n"
-                            "Player 6: ____, ____, ____, ____, ____, ____, ____, ____, ____, ____ Turn over.\n");
+        REQUIRE(ss.str() == "Player 1: ____, ____, ____, ____, ____, ____, ____, ____, ____, ____\n"
+                            "Player 2: ____, ____, ____, ____, ____, ____, ____, ____, ____, ____\n"
+                            "Player 3: ____, ____, ____, ____, ____, ____, ____, ____, ____, ____\n"
+                            "Player 4: ____, ____, ____, ____, ____, ____, ____, ____, ____, ____\n"
+                            "Player 5: ____, ____, ____, ____, ____, ____, ____, ____, ____, ____\n"
+                            "Player 6: ____, ____, ____, ____, ____, ____, ____, ____, ____, ____\n");
     }
     TEST_CASE("Game play game 6 players") {
         Game game(6, 1);
         game.play_game();
         stringstream ss;
         ss<<game.to_string();
-        REQUIRE(ss.str() == "Player 1:  A S,  2 D,  J C,  4 D, ____, ____,  7 S,  8 D, ____, ____ Turn over.\n"
-                            "Player 2:  A D,  2 D,  3 C, ____, ____,  6 H,  J H,  8 H,  9 C, 10 C Turn over.\n"
-                            "Player 3:  A D,  2 H,  J D,  4 H, ____,  6 D,  7 D,  8 D,  9 S, 10 C Turn over.\n"
-                            "Player 4:  J C,  2 S,  3 S,  4 S, ____,  6 H,  7 C,  8 H, ____, 10 D Turn over.\n"
-                            "Player 5:  A C,  2 C,  3 S,  J H,  5 D,  6 C,  7 S,  8 H,  9 D, 10 H Turn over.\n"
-                            "Player 6: ____, ____,  3 H,  4 S,  5 H, ____,  7 H, ____,  9 H, 10 S Turn over.\n");
+        REQUIRE(ss.str() == "Player 1:  A S,  2 D,  J C,  4 D, ____, ____,  7 S,  8 D, ____, ____\n"
+                            "Player 2:  A D,  2 D,  3 C, ____, ____,  6 H,  J H,  8 H,  9 C, 10 C\n"
+                            "Player 3:  A D,  2 H,  J D,  4 H, ____,  6 D,  7 D,  8 D,  9 S, 10 C\n"
+                            "Player 4:  J C,  2 S,  3 S,  4 S, ____,  6 H,  7 C,  8 H, ____, 10 D\n"
+                            "Player 5:  A C,  2 C,  3 S,  J H,  5 D,  6 C,  7 S,  8 H,  9 D, 10 H has won\n"
+                            "Player 6: ____, ____,  3 H,  4 S,  5 H, ____,  7 H, ____,  9 H, 10 S\n");
+    }
+    TEST_CASE("Game step") {
+        Game game(2, 1);
+        //game.play_game();
+        bool is_done = game.step();
+        REQUIRE(is_done == false);
+
+        stringstream ss;
+        ss<<game.to_string();
+        REQUIRE(ss.str() == "Player 1: ____, ____, ____, ____, ____, ____, ____, ____, ____, ____ Card to be played:  6 S\n"
+                            "Player 2: ____, ____, ____, ____, ____, ____, ____, ____, ____, ____\n");
+        while (!game.step()) {  //loop until turn is done for player 1
+        }
+        stringstream ss1;
+        ss1<<game.to_string();
+        REQUIRE(ss1.str() == "Player 1: ____, ____, ____, ____, ____,  6 S, ____, ____,  9 D, 10 H Turn over. Could not play  K S\n"
+                             "Player 2: ____, ____, ____, ____, ____, ____, ____, ____, ____, ____\n");
+        while (!game.step()) {  //loop until turn is done for player 2
+        }
+        stringstream ss2;
+        ss2<<game.to_string();
+        REQUIRE(ss2.str() == "Player 1: ____, ____, ____, ____, ____,  6 S, ____, ____,  9 D, 10 H Turn over.\n"
+                             "Player 2: ____, ____, ____, ____,  5 C, ____,  7 H, ____, ____, ____ Turn over. Could not play  Q H\n");
+    }
+    TEST_CASE("Step game over") {
+        Game game(2, 1);
+        while (!game.is_over()) {
+            game.step();
+        }
+        stringstream ss;
+        ss<<game.to_string();
+        REQUIRE(ss.str() == "Player 1:  A C,  2 C,  3 C, ____,  5 D,  6 S, ____,  8 C,  9 D, 10 H Turn over. Could not play  9 S\n"
+                            "Player 2:  J S,  2 H,  3 D,  4 C,  5 C,  J C,  7 H,  J D,  9 C, 10 S has won\n");
+        stringstream ss1;
+        ss1<<game.game_summary();
+        REQUIRE(ss1.str() == "Player 2 has won!");
+    }
+    TEST_CASE("Board step") {
+        Board *board = new Board(1);
+        Player *player1 = new Player("Player 1", board);
+        Player *player2 = new Player("Player 2", board);
+        vector<Player*> players;
+        players.push_back(player1);
+        players.push_back(player2);
+        board->add_players(players, players.size() / 2);
+        board->start_game();
+
+        REQUIRE(board->step() == false);
+        stringstream ss;
+        board->print(ss);
+        REQUIRE(ss.str() == "Player 1: ____, ____, ____, ____, ____, ____, ____, ____, ____, ____ Card to be played:  6 S\n"
+                            "Player 2: ____, ____, ____, ____, ____, ____, ____, ____, ____, ____\n");
+        while (!board->step()) { //while turn is still going for one player
+        }
+        stringstream ss1;
+        board->print(ss1);
+        REQUIRE(ss1.str() == "Player 1: ____, ____, ____, ____, ____,  6 S, ____, ____,  9 D, 10 H Turn over. Could not play  K S\n"
+                             "Player 2: ____, ____, ____, ____, ____, ____, ____, ____, ____, ____\n");
+        board->step();
+        stringstream ss2;   ///player 2 does first turn
+        board->print(ss2);
+        REQUIRE(ss2.str() == "Player 1: ____, ____, ____, ____, ____,  6 S, ____, ____,  9 D, 10 H Turn over.\n"
+                             "Player 2: ____, ____, ____, ____, ____, ____, ____, ____, ____, ____ Card to be played:  7 H\n");
+        while (!board->step()) { //while turn is still going for one player
+        }
+        stringstream ss3;
+        board->print(ss3);
+        REQUIRE(ss3.str() == "Player 1: ____, ____, ____, ____, ____,  6 S, ____, ____,  9 D, 10 H Turn over.\n"
+                             "Player 2: ____, ____, ____, ____,  5 C, ____,  7 H, ____, ____, ____ Turn over. Could not play  Q H\n");
+        while (!board->is_over()) {
+            board->step();
+        }
+        stringstream ss4;
+        board->print(ss4);
+        REQUIRE(ss4.str() == "Player 1:  A C,  2 C,  3 C, ____,  5 D,  6 S, ____,  8 C,  9 D, 10 H Turn over. Could not play  9 S\n"
+                            "Player 2:  J S,  2 H,  3 D,  4 C,  5 C,  J C,  7 H,  J D,  9 C, 10 S has won\n");
+        stringstream ss5;
+        ss5<<board->game_summary();
+        REQUIRE(ss5.str() == "Player 2 has won!");
+    }
+    TEST_CASE("Player step") {
+        Board *board = new Board(1);
+        Player *player1 = new Player("Player 1", board);
+        Player *player2 = new Player("Player 2", board);
+        vector<Player *> players;
+        players.push_back(player1);
+        players.push_back(player2);
+        board->add_players(players, players.size() / 2);
+        board->start_game();
+        REQUIRE(player1->step() == false);
+        stringstream ss;
+        player1->print(ss);
+        REQUIRE(ss.str() == "Player 1: ____, ____, ____, ____, ____,  6 S, ____, ____, ____, ____ Card to be played:  9 D\n");
+        while (!player1->step()) {
+        }
+        stringstream ss1;
+        player1->print(ss1);
+        REQUIRE(ss1.str() == "Player 1: ____, ____, ____, ____, ____,  6 S, ____, ____,  9 D, 10 H Turn over. Could not play  K S\n");
     }
 }

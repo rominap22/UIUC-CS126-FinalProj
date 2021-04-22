@@ -26,6 +26,9 @@ namespace naivebayes {
         bool step();
         bool is_over();
         string game_summary();
+        bool is_jack();
+        void place_jack(size_t rank);
+        bool is_rank_good(size_t rank);
     private:
         vector<Card> stock;
         vector<Player*> players;

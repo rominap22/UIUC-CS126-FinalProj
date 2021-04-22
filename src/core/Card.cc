@@ -47,7 +47,7 @@ namespace naivebayes {
         if (card.is_face_up) {
             out<<std::setw(2)<<card.get_rank()<<" "<<card.get_suit()[0];   //e.g. "K C" if King of Clubs
         } else {
-            out<<"____";
+            out<<"___";
         }
         return out;
     }

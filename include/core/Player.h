@@ -22,12 +22,20 @@ namespace naivebayes {
         bool is_game_over();
         bool step();
         Card next_card();
+        bool is_jack();
+        void place_jack(size_t rank);
+        bool is_rank_good(size_t rank);
     private:
         string name;
         vector<Card> hand;
         Board* board;
         bool is_playable;
         Card to_be_played;
+        bool was_discarded;
+        bool has_started;
+        Card discarded_card;
+        bool is_winner;
+        bool is_rank_jack;
     };
 }
 
