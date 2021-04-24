@@ -36,6 +36,8 @@ class GameApp : public ci::app::App {
   bool is_selected;
   bool request_jack;
   bool invalid_jack;
+  //std::shared_ptr<ci::gl::Texture2d> mTex;
+  //ci::gl::Texture2d* mTex;
 };
 
 }  // namespace visualizer

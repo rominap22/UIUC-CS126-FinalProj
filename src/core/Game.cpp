@@ -36,8 +36,13 @@ namespace naivebayes {
     }
     void Game::play_game() {
         bool is_done = false;
-        while (!is_done) {
-            is_done = board->turn();
+        while (!is_over()) {
+            step();
+            if (is_jack()) {
+                size_t rank = board->select_best_rank();
+                board->place_jack(rank);
+            }
+            //is_done = board->turn();
         }
     }
     bool Game::turn() {
@@ -60,5 +65,8 @@ namespace naivebayes {
     }
     bool Game::is_rank_good(size_t rank) {
         return board->is_rank_good(rank);
+    }
+    size_t Game::select_best_rank() {
+        return board->select_best_rank();
     }
 }

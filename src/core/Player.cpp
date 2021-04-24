@@ -54,7 +54,7 @@ namespace naivebayes {
             size_t selected_rank = card.get_rank_int(); //get the rank of the card
             if (card.get_rank_int() == 11) {    //jack / wild card
                 //keeping track if the card is face up or face down (face up if it gets replaced)
-                selected_rank = board->select_best_rank(name);
+                selected_rank = board->select_best_rank();
             } else {
                 //skip over any non-Jack card that is already face up
                 if (hand[selected_rank - 1].get_face_up() &&
@@ -125,13 +125,14 @@ namespace naivebayes {
                 if (card.get_rank_int() == 11) {
                     is_rank_jack = true;
                 }
-                print(cout);
+                //print(cout);
                 card.set_face_up(true);
                 //std::cout<<name<<" is playing "<<card<<std::endl;
-                std::cout<<"player line 128: "<<is_rank_jack<<" "<<card<<" "<<is_playable<<std::endl;
+                //std::cout<<"player line 128: "<<is_rank_jack<<" "<<card<<" "<<is_playable<<std::endl;
             }
         }
         if (is_winner) {
+            is_playable = false;
             std::cout<<name<<" has won"<<std::endl;
             return false;
         }
@@ -151,8 +152,8 @@ namespace naivebayes {
             card.set_face_up(false);
             board->discard_card(card);
         }
-        std::cout<<"player line 155: "<<name<<" is playable"<<is_playable<<" is jack: "<<is_rank_jack
-        <<" was discarded: "<<was_discarded<<" to be played: "<<to_be_played<<std::endl;
+        //std::cout<<"player line 155: "<<name<<" is playable"<<is_playable<<" is jack: "<<is_rank_jack
+        //<<" was discarded: "<<was_discarded<<" to be played: "<<to_be_played<<std::endl;
         return !is_playable;    //turn is over
     }
     Card Player::next_card() {  //for printing card to be drawn

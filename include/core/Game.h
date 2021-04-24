@@ -22,6 +22,7 @@ namespace naivebayes {
         bool is_jack();
         void place_jack(size_t rank);
         bool is_rank_good(size_t rank);
+        size_t select_best_rank();
     private:
         Board* board;
     };

@@ -20,7 +20,7 @@ namespace naivebayes {
         Card draw();
         void print(ostream& out);
         bool turn();
-        size_t select_best_rank(string for_player);
+        size_t select_best_rank();
         void discard_card(Card card);
         void start_game();
         bool step();

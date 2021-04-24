@@ -1,5 +1,4 @@
 #include <visualizer/game_app.h>
-
 namespace naivebayes {
 
 namespace visualizer {
@@ -11,6 +10,10 @@ GameApp::GameApp()
   selected = 0;
   is_selected = false;
   request_jack = false;
+    //std::shared_ptr<ci::DataSource> img = loadAsset("assets/2C.jpg");
+    auto img = ci::loadImage( ci::app::loadAsset(
+            "../../assets/2C.jpg" ) );
+    //std::shared_ptr<ci::gl::Texture2d> mTex = ci::gl::Texture2d::create(img);
 }
 
 void GameApp::draw() {
@@ -51,6 +54,9 @@ void GameApp::draw() {
             //invalid_jack = false;
         }
     }
+    //ci::gl::draw(mTex);
+    //ci::gl::Texture texture = loadImage( loadAsset( "pictures/photo1.jpg" ) );
+    //ci::gl::Texture texture = ci::loadImage("C:\\Users\\romip\\Downloads\\cards_jpeg_zip\\JPEG\\2C.jpeg");
 }
 
 void GameApp::mouseDown(ci::app::MouseEvent event) {
