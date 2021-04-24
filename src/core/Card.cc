@@ -8,7 +8,7 @@ namespace naivebayes {
     Card::Card(size_t rank, SUITS suits):rank{rank}, suits{suits}, is_face_up{false} {
 
     }
-    Card::Card():rank{1}, suits{SUITS::SPADES}, is_face_up{false} {}
+    Card::Card():rank{0}, suits{SUITS::SPADES}, is_face_up{false} {}
     bool Card::get_face_up() {
         return is_face_up;
     }
@@ -56,6 +56,9 @@ namespace naivebayes {
     }
     int Card::get_rank_int() {
         return rank;
+    }
+    int Card::get_suit_int() {
+        return (int) suits;
     }
     void Card::set_face_up(bool is_face_up) {
         this->is_face_up = is_face_up;

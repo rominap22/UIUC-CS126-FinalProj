@@ -25,6 +25,7 @@ namespace naivebayes {
         bool is_jack();
         void place_jack(size_t rank);
         bool is_rank_good(size_t rank);
+        void get_summary(Card* hand);
     private:
         string name;
         vector<Card> hand;

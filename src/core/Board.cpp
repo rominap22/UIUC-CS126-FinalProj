@@ -193,4 +193,7 @@ namespace naivebayes {
     bool Board::is_rank_good(size_t rank) {
         return players[current_player]->is_rank_good(rank);
     }
+    void Board::get_summary(Card* hand, size_t player_num) {
+        players[player_num]->get_summary(hand);
+    }
 }

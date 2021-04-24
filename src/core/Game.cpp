@@ -34,6 +34,9 @@ namespace naivebayes {
         board->print(ss);
         return ss.str();
     }
+    void Game::get_summary(Card* hand, size_t player_num) {
+        board->get_summary(hand, player_num);
+    }
     void Game::play_game() {
         bool is_done = false;
         while (!is_over()) {

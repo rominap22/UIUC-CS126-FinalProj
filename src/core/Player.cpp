@@ -185,4 +185,14 @@ namespace naivebayes {
         std::cout<<name<<" play jack next card is "<<to_be_played<<std::endl;
         is_rank_jack = to_be_played.get_rank_int() == 11;
     }
+    void Player::get_summary(Card* hand) {
+        for (size_t i = 0; i < 10; i++) {
+            hand[i] = this->hand[i];
+        }
+        if (is_playable) {
+            hand[10] = to_be_played;
+        } else {
+            hand[10] = Card();
+        }
+    }
 }

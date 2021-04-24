@@ -13,9 +13,60 @@ GameApp::GameApp()
     //auto img = ci::loadImage( ci::app::loadAsset(
       //      "assets/JPEG/2C.jpg" ) );
         //loadImage(cinder::loadUrl(your_url))
-    auto img = ci::loadImage(cinder::loadUrl(
-            "https://s4.aconvert.com/convert/p3r68-cdx67/azdm2-gng0y.png"));
-    mTex = ci::gl::Texture2d::create(img);
+    //char temp[200];
+    //char* url = "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Playing_card_%s_%d.svg/1200px-Playing_card_%s_%d.svg.png";
+    for (size_t suit = 0; suit < 4; suit++) {
+        for (size_t rank = 0; rank < 13; rank++) {
+            string s;
+            switch (suit) {
+                case 0:
+                    s = "club";
+                    break;
+                case 1:
+                    s = "diamond";
+                    break;
+                case 2:
+                    s = "heart";
+                    break;
+                case 3:
+                    s = "spade";
+                    break;
+            }
+            //if (sprintf(temp, url, s.c_str(), (rank + 1)) < 0) {
+              //  perror("sprintf");
+            //}  //temp becomes url
+            //auto img = ci::loadImage(cinder::loadUrl(temp));
+            auto img = ci::loadImage(cinder::loadUrl(urls[0]));
+            mTex[suit][rank] = ci::gl::Texture2d::create(img);
+        }
+    }
+    auto img_back = ci::loadImage(cinder::loadUrl(back_url));
+    back = ci::gl::Texture2d::create(img_back);
+    //auto img = ci::loadImage(cinder::loadUrl(
+      //      "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Playing_card_club_2.svg/1200px-Playing_card_club_2.svg.png"));
+    //mTex = ci::gl::Texture2d::create(img);
+    //rect = ci::RectT<ci::gl::Texture2dRef>(mTex);
+    //set each player's board
+    for (size_t i = 0; i < 10; i++) {
+        rect_p1[i].set((float) (kMargin + 1) * (i + 1),
+                       (float) (kMargin + 1 + (float) (2 * kMargin)),
+                       (float) (kMargin + 1) * ((i + 1) + 0.9f),
+                       (float) (kMargin + 1) * 2 + (float) (2 * kMargin));
+        rect_p2[i].set((float) (kMargin + 1) * (i + 1),
+                       (float) (kMargin + 1) * 3 + (float) (2 * kMargin),
+                       (float) (kMargin + 1) * ((i + 1) + 0.9f),
+                       (float) (kMargin + 1) * 4 + (float) (2 * kMargin));
+    }
+    //set card to be played separately
+    size_t i = 11;
+    rect_p1[10].set((float) (kMargin + 1) * (i + 1),
+                   (float) (kMargin + 1) + (float) (2 * kMargin),
+                   (float) (kMargin + 1) * ((i + 1) + 0.9f),
+                   (float) (kMargin + 1) * 2 + (float) (2 * kMargin));
+    rect_p2[10].set((float) (kMargin + 1) * (i + 1),
+                   (float) (kMargin + 1) * 3 + (float) (2 * kMargin),
+                   (float) (kMargin + 1) * ((i + 1) + 0.9f),
+                   (float) (kMargin + 1) * 4 + (float) (2 * kMargin));
 }
 
 void GameApp::draw() {
@@ -56,7 +107,28 @@ void GameApp::draw() {
             //invalid_jack = false;
         }
     }
-    ci::gl::draw(mTex);
+    //ci::gl::draw(mTex);
+    //ci::gl::draw(mTex, rect);
+    game.get_summary(hand_p1, 0);
+    game.get_summary(hand_p2, 1);
+    for (size_t i = 0; i < 11; i++) {
+        std::cout<<"p1 card "<<i<<" "<<hand_p1[i]<<std::endl;
+        std::cout<<"p2 card "<<i<<" "<<hand_p2[i]<<std::endl;
+        if (hand_p1[i].get_face_up()) {
+            size_t p1_rank = hand_p1[i].get_rank_int();
+            size_t p1_suit = hand_p1[i].get_suit_int();
+            ci::gl::draw(mTex[p1_suit][p1_rank - 1], rect_p1[i]);
+        } else {
+            ci::gl::draw(back, rect_p1[i]);
+        }
+        if (hand_p2[i].get_face_up()) {
+            size_t p2_rank = hand_p2[i].get_rank_int();
+            size_t p2_suit = hand_p2[i].get_suit_int();
+            ci::gl::draw(mTex[p2_suit][p2_rank - 1], rect_p2[i]);
+        } else {
+            ci::gl::draw(back, rect_p2[i]);
+        }
+    }
     //ci::app::getAssetPath("assets/2C.jpg");
     //ci::gl::Texture texture = loadImage( loadAsset( "pictures/photo1.jpg" ) );
     //ci::gl::Texture texture = ci::loadImage("C:\\Users\\romip\\Downloads\\cards_jpeg_zip\\JPEG\\2C.jpeg");
