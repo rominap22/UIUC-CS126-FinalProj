@@ -17,8 +17,8 @@ GameApp::GameApp()
     //char* url = "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Playing_card_%s_%d.svg/1200px-Playing_card_%s_%d.svg.png";
     for (size_t suit = 0; suit < 4; suit++) {
         for (size_t rank = 0; rank < 13; rank++) {
-            string s;
-            switch (suit) {
+            //string s;
+            /*switch (suit) {
                 case 0:
                     s = "club";
                     break;
@@ -31,12 +31,12 @@ GameApp::GameApp()
                 case 3:
                     s = "spade";
                     break;
-            }
+            }*/
             //if (sprintf(temp, url, s.c_str(), (rank + 1)) < 0) {
               //  perror("sprintf");
             //}  //temp becomes url
             //auto img = ci::loadImage(cinder::loadUrl(temp));
-            auto img = ci::loadImage(cinder::loadUrl(urls[0]));
+            auto img = ci::loadImage(cinder::loadUrl(urls[suit][rank]));
             mTex[suit][rank] = ci::gl::Texture2d::create(img);
         }
     }
@@ -49,24 +49,24 @@ GameApp::GameApp()
     //set each player's board
     for (size_t i = 0; i < 10; i++) {
         rect_p1[i].set((float) (kMargin + 1) * (i + 1),
-                       (float) (kMargin + 1 + (float) (2 * kMargin)),
+                       (float) (kMargin + 1 + (float) (1 * kMargin)),
                        (float) (kMargin + 1) * ((i + 1) + 0.9f),
-                       (float) (kMargin + 1) * 2 + (float) (2 * kMargin));
+                       (float) (kMargin + 1) * 1 + (float) (2 * kMargin));
         rect_p2[i].set((float) (kMargin + 1) * (i + 1),
-                       (float) (kMargin + 1) * 3 + (float) (2 * kMargin),
+                       (float) (kMargin + 1) * 2 + (float) (2 * kMargin),
                        (float) (kMargin + 1) * ((i + 1) + 0.9f),
-                       (float) (kMargin + 1) * 4 + (float) (2 * kMargin));
+                       (float) (kMargin + 1) * 3 + (float) (2 * kMargin));
     }
     //set card to be played separately
     size_t i = 11;
     rect_p1[10].set((float) (kMargin + 1) * (i + 1),
-                   (float) (kMargin + 1) + (float) (2 * kMargin),
+                   (float) (kMargin + 1) + (float) (1 * kMargin),
                    (float) (kMargin + 1) * ((i + 1) + 0.9f),
-                   (float) (kMargin + 1) * 2 + (float) (2 * kMargin));
+                   (float) (kMargin + 1) * 1 + (float) (2 * kMargin));
     rect_p2[10].set((float) (kMargin + 1) * (i + 1),
-                   (float) (kMargin + 1) * 3 + (float) (2 * kMargin),
+                   (float) (kMargin + 1) * 2 + (float) (2 * kMargin),
                    (float) (kMargin + 1) * ((i + 1) + 0.9f),
-                   (float) (kMargin + 1) * 4 + (float) (2 * kMargin));
+                   (float) (kMargin + 1) * 3 + (float) (2 * kMargin));
 }
 
 void GameApp::draw() {
@@ -152,7 +152,7 @@ void GameApp::mouseDrag(ci::app::MouseEvent event) {
 }
 void GameApp::handleKeys(size_t rank) {
     std::cout<<"game app line 71: "<<game.is_rank_good(rank)<<", rank = "<<rank<<std::endl;
-    if (game.is_rank_good(rank)) {
+    if (game.is_rank_good(rank) && request_jack) {
         selected = rank;
         is_selected = true;
         request_jack = false;
