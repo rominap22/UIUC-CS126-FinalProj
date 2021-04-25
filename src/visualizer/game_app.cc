@@ -47,7 +47,7 @@ GameApp::GameApp()
     //mTex = ci::gl::Texture2d::create(img);
     //rect = ci::RectT<ci::gl::Texture2dRef>(mTex);
     //set each player's board
-    for (size_t i = 0; i < 10; i++) {
+    for (size_t i = 0; i < 10; i++) {   //+ 1 to avoid multiplying by 0 and not moving from edge
         rect_p1[i].set((float) (kMargin + 1) * (i + 1),
                        (float) (kMargin + 1 + (float) (1 * kMargin)),
                        (float) (kMargin + 1) * ((i + 1) + 0.9f),
@@ -67,6 +67,11 @@ GameApp::GameApp()
                    (float) (kMargin + 1) * 2 + (float) (2 * kMargin),
                    (float) (kMargin + 1) * ((i + 1) + 0.9f),
                    (float) (kMargin + 1) * 3 + (float) (2 * kMargin));
+    i = 6;  //moves discard towards middle and enlarges image
+    rect_discard.set((float) (kMargin + 1) * (i + 0.3f),
+                    (float) (kMargin + 1) * 9 + (float) (2 * kMargin),
+                    (float) (kMargin + 1) * ((i + 1) + 1.1f),
+                    (float) (kMargin + 1) * 11 + (float) (2 * kMargin));
 }
 
 void GameApp::draw() {
@@ -85,10 +90,13 @@ void GameApp::draw() {
       glm::vec2(kWindowSize / 2, 2 * kMargin), ci::Color("blue"),
           ci::Font("Arial", 20));
     ci::gl::drawStringCentered(
-            game.to_string(),
-            glm::vec2(kWindowSize / 2, kMargin * 6), ci::Color("blue"),
+            game.to_string(0),
+            glm::vec2(kWindowSize / 2, kMargin * 3.5), ci::Color("blue"),
             ci::Font("Arial", 35));
-
+    ci::gl::drawStringCentered(
+            game.to_string(1),
+            glm::vec2(kWindowSize / 2, kMargin * 5.5), ci::Color("blue"),
+            ci::Font("Arial", 35));
     if (game.is_over()) {
         ci::gl::drawStringCentered(
                 game.game_summary(),
@@ -102,7 +110,7 @@ void GameApp::draw() {
         if (invalid_jack) {
             ci::gl::drawStringCentered(
                     "invalid location of jack. You must select a face down card location (0 for 10)",
-                    glm::vec2(kWindowSize / 2, kMargin * 10), ci::Color("blue"),
+                    glm::vec2(kWindowSize / 2, kMargin * 9), ci::Color("blue"),
                     ci::Font("Arial", 35));
             //invalid_jack = false;
         }
@@ -128,6 +136,18 @@ void GameApp::draw() {
         } else {
             ci::gl::draw(back, rect_p2[i]);
         }
+    }
+    ci::gl::drawStringCentered(
+            "DISCARD:",
+            glm::vec2(kWindowSize / 2, kMargin * 10), ci::Color("blue"),
+            ci::Font("Arial", 40));
+    Card discard = game.get_last_discard();
+    if (discard.get_rank_int() == 0) {
+        ci::gl::draw(back, rect_discard);
+    } else {
+        size_t rank = discard.get_rank_int();
+        size_t suit = discard.get_suit_int();
+        ci::gl::draw(mTex[suit][rank - 1], rect_discard);
     }
     //ci::app::getAssetPath("assets/2C.jpg");
     //ci::gl::Texture texture = loadImage( loadAsset( "pictures/photo1.jpg" ) );

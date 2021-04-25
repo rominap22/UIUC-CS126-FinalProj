@@ -17,7 +17,36 @@ namespace naivebayes {
     void Player::add_card(Card card) {
         hand.push_back(card);
     }
-    void Player::print(ostream& out) {
+    void Player::print(ostream& out) {  //Cinder
+        //out<<name<<": ";
+        /*if (is_playable) {
+            out<<"Card to be played is "<<to_be_played<<": ";
+        }*/
+        /*for (size_t i = 0; i < hand.size(); i++) {
+            if (i != 0) {
+                out<<", ";
+            }
+            out<<hand[i];
+        }*/
+        out<<name<<": ";
+        if (is_winner) {
+            out<<" has won";
+        } else if (is_playable) {
+            out<<" Card to be played: "<<to_be_played;
+        } else {
+            if (was_discarded) {
+                discarded_card.set_face_up(true);
+                out<<" Turn over. Could not play "<<discarded_card;
+                was_discarded = false;
+            } else {
+                if (has_started) {
+                    out<<" Turn over.";
+                }
+            }
+        }
+        out<<endl;
+    }
+    void Player::print_summary(ostream& out) {
         out<<name<<": ";
         /*if (is_playable) {
             out<<"Card to be played is "<<to_be_played<<": ";

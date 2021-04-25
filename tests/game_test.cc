@@ -78,7 +78,7 @@ namespace naivebayes {
             player.add_card(card);
         }
         stringstream ss;
-        player.print(ss);
+        player.print_summary(ss);
         REQUIRE(ss.str() == "Name: ___, ___, ___, ___, ___, ___, ___, ___, ___, ___\n");
     }
     TEST_CASE("Player turn") {
@@ -119,7 +119,7 @@ namespace naivebayes {
             REQUIRE(player1->is_face_up(rank) == is_face_up[rank - 1]);
         }
         stringstream ss;
-        player1->print(ss);
+        player1->print_summary(ss);
         REQUIRE(ss.str() == "Player 1: ___, ___, ___, ___, ___,  6 S, ___, ___,  9 D, 10 H\n");
     }
     TEST_CASE("Player game over") {
@@ -142,7 +142,7 @@ namespace naivebayes {
             REQUIRE(players[next]->is_face_up(rank) == true);
         }
         stringstream ss;
-        players[next]->print(ss);
+        players[next]->print_summary(ss);
         REQUIRE(ss.str() == "Player 2:  J S,  2 H,  3 D,  4 C,  5 C,  J C,  7 H,  J D,  9 C, 10 S has won\n");
     }
     TEST_CASE("Board less than 2 players") {
@@ -282,13 +282,13 @@ namespace naivebayes {
                              "Player 3: ___, ___, ___, ___, ___, ___, ___, ___, ___, ___\n");
         for (size_t i = 0; i < players.size(); i++) {
             std::cout<<players[i]->get_name()<<" before: ";
-            players[i]->print(std::cout);
+            players[i]->print_summary(std::cout);
             players[i]->turn();
             std::cout<<players[i]->get_name()<<" AFTER: ";
-            players[i]->print(std::cout);
+            players[i]->print_summary(std::cout);
         }
         stringstream ss2;
-        players[2]->print(ss2);
+        players[2]->print_summary(ss2);
         REQUIRE(ss2.str() == "Player 3:  J D,  2 C, ___,  4 S,  J C,  6 H, ___, ___, ___, ___\n");
     }
     TEST_CASE("Game print 2 players") {
@@ -439,12 +439,12 @@ namespace naivebayes {
         board->start_game();
         REQUIRE(player1->step() == false);
         stringstream ss;
-        player1->print(ss);
+        player1->print_summary(ss);
         REQUIRE(ss.str() == "Player 1: ___, ___, ___, ___, ___,  6 S, ___, ___, ___, ___ Card to be played:  9 D\n");
         while (!player1->step()) {
         }
         stringstream ss1;
-        player1->print(ss1);
+        player1->print_summary(ss1);
         REQUIRE(ss1.str() == "Player 1: ___, ___, ___, ___, ___,  6 S, ___, ___,  9 D, 10 H Turn over. Could not play  K S\n");
     }
 }

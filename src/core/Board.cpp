@@ -86,9 +86,14 @@ namespace naivebayes {
         stock.pop_back();                   //remove last card from stock
         return card;
     }
+    void Board::print(ostream& out, size_t player_num) {
+        //for (size_t i = 0; i < players.size(); i++) {
+            players[player_num]->print(out);
+        //}
+    }
     void Board::print(ostream& out) {
         for (size_t i = 0; i < players.size(); i++) {
-            players[i]->print(out);
+            players[i]->print_summary(out);
         }
     }
     bool Board::turn() {
@@ -195,5 +200,12 @@ namespace naivebayes {
     }
     void Board::get_summary(Card* hand, size_t player_num) {
         players[player_num]->get_summary(hand);
+    }
+    Card Board::get_last_discard() {
+        if (discard.empty()) {
+            return Card();  //game has not started yet (no cards in discard)
+        } else {
+            return discard[discard.size() - 1]; //last discarded card
+        }
     }
 }

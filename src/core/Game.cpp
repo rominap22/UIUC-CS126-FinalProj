@@ -29,6 +29,11 @@ namespace naivebayes {
         board->add_players(players, players.size() / 2);
         board->start_game();
     }
+    string Game::to_string(size_t player_num) {
+        stringstream ss;
+        board->print(ss, player_num);
+        return ss.str();
+    }
     string Game::to_string() {
         stringstream ss;
         board->print(ss);
@@ -71,5 +76,8 @@ namespace naivebayes {
     }
     size_t Game::select_best_rank() {
         return board->select_best_rank();
+    }
+    Card Game::get_last_discard() {
+        return board->get_last_discard();
     }
 }

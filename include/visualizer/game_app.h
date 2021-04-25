@@ -41,6 +41,7 @@ class GameApp : public ci::app::App {
   //ci::gl::Texture2dRef mTex;
   ci::Rectf rect_p1[11];
   ci::Rectf rect_p2[11];
+  ci::Rectf rect_discard;
   Card hand_p1[11];
   Card hand_p2[11];
   char* back_url = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Card_back_01.svg/1200px-Card_back_01.svg.png";

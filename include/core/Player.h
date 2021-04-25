@@ -16,6 +16,7 @@ namespace naivebayes {
         Player(string name, Board* board);
         void add_card(Card card);
         void print(ostream& out);
+        void print_summary(ostream& out);
         void turn();
         string get_name();
         bool is_face_up(size_t rank);

@@ -18,6 +18,7 @@ namespace naivebayes {
         void add_players(vector<Player*> players, size_t num_decks);
         void add_players(vector<Player*> players);
         Card draw();
+        void print(ostream& out, size_t player_num);
         void print(ostream& out);
         bool turn();
         size_t select_best_rank();
@@ -30,6 +31,7 @@ namespace naivebayes {
         void place_jack(size_t rank);
         bool is_rank_good(size_t rank);
         void get_summary(Card* hand, size_t player_num);
+        Card get_last_discard();
     private:
         vector<Card> stock;
         vector<Player*> players;
