@@ -68,14 +68,14 @@ GameApp::GameApp()
                    (float) (kMargin + 1) * ((i + 1) + 0.9f),
                    (float) (kMargin + 1) * 3 + (float) (2 * kMargin));
     i = 6;  //moves discard towards middle and enlarges image
-    rect_discard.set((float) (kMargin + 1) * (i + 0.3f),
+    rect_discard.set((float) (kMargin + 1) * (i + 0.5f),
                     (float) (kMargin + 1) * 9 + (float) (2 * kMargin),
-                    (float) (kMargin + 1) * ((i + 1) + 1.1f),
+                    (float) (kMargin + 1) * ((i + 1) + 1.3f),
                     (float) (kMargin + 1) * 11 + (float) (2 * kMargin));
 }
 
 void GameApp::draw() {
-  ci::Color8u background_color(255, 246, 148);  // light yellow
+  ci::Color8u background_color(	212, 235, 242);  // light blue
   ci::gl::clear(background_color);
 
   sketchpad_.Draw();
@@ -91,11 +91,11 @@ void GameApp::draw() {
           ci::Font("Arial", 20));
     ci::gl::drawStringCentered(
             game.to_string(0),
-            glm::vec2(kWindowSize / 2, kMargin * 3.5), ci::Color("blue"),
+            glm::vec2(kWindowSize / 2, kMargin * 3.3), ci::Color("blue"),
             ci::Font("Arial", 35));
     ci::gl::drawStringCentered(
             game.to_string(1),
-            glm::vec2(kWindowSize / 2, kMargin * 5.5), ci::Color("blue"),
+            glm::vec2(kWindowSize / 2, kMargin * 5.4), ci::Color("blue"),
             ci::Font("Arial", 35));
     if (game.is_over()) {
         ci::gl::drawStringCentered(
