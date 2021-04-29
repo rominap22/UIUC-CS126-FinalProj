@@ -8,7 +8,8 @@
 #include <time.h>
 using std::vector;
 namespace naivebayes {
-    Board::Board(size_t seed):current_player{0}, is_done{true} { //forcing same random sequence
+    Board::Board(size_t seed):current_player{0}, is_done{true},
+                            num_of_suits{4} { //forcing same random sequence
         srand(seed);    //seed random function
         std::cout<<"seed = "<<seed<<std::endl;
     }
@@ -39,7 +40,7 @@ namespace naivebayes {
         //iterating over number of decks
         for (size_t nd = 0; nd < num_decks; nd++) {
             //iterating over enum suit types
-            for (size_t i = 0; i < 4; i++) {
+            for (size_t i = 0; i < num_of_suits; i++) {
                 Card::SUITS suit;
                 switch (i) {
                     case 0:

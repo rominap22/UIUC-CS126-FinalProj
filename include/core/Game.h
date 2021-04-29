@@ -13,6 +13,7 @@ namespace naivebayes {
         Game(size_t num_players);
         Game();
         Game(size_t num_players, size_t seed);
+        ~Game();
         string to_string(size_t player_num);
         string to_string();
         void get_summary(Card* hand, size_t player_num);

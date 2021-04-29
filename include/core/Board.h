@@ -40,6 +40,7 @@ namespace naivebayes {
         bool is_done;
         //stock pile deck of cards based on # of players
         void get_deck(size_t num_decks);
+        size_t num_of_suits;
         void shuffle();
     };
 }

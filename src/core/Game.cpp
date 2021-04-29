@@ -29,6 +29,9 @@ namespace naivebayes {
         board->add_players(players, players.size() / 2);
         board->start_game();
     }
+    Game::~Game() {
+        delete board;
+    }
     string Game::to_string(size_t player_num) {
         stringstream ss;
         board->print(ss, player_num);
