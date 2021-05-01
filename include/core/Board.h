@@ -1,12 +1,7 @@
-//
-// Created by romip on 4/17/2021.
-//
-
-#ifndef NAIVE_BAYES_BOARD_H
-#define NAIVE_BAYES_BOARD_H
+#ifndef GARBAGE_BOARD_H
+#define GARBAGE_BOARD_H
 #include <core/Card.h>
 #include <vector>
-//class garbage::Player;
 #include <core/Player.h>
 #include <stdexcept>
 using std::vector;
@@ -15,9 +10,31 @@ namespace garbage {
     public:
         Board(size_t seed);
         Board();
+        /**
+         * Adds players and number of decks to the game, shuffles the cards,
+         * and sets the current player to the first player.
+         * @param players number of players
+         * @param num_decks number of decks of cards to be shuffled
+         */
         void add_players(vector<Player*> players, size_t num_decks);
+        /**
+         * Adds players to game by calling above add_players function but
+         * is extensible to more than 2 players.
+         * @param players number of players
+         */
         void add_players(vector<Player*> players);
+        /**
+         * Remove last card from top of stock pile.
+         * (If empty stock, sets stock equal to discard, shuffles it,
+         * and draws from stock)
+         * @return Card drawn as top card from stock pile
+         */
         Card draw();
+        /**
+         *
+         * @param out
+         * @param player_num
+         */
         void print(ostream& out, size_t player_num);
         void print(ostream& out);
         bool turn();
@@ -45,4 +62,4 @@ namespace garbage {
     };
 }
 
-#endif //NAIVE_BAYES_BOARD_H
+#endif //GARBAGE_BOARD_H

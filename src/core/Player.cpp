@@ -1,7 +1,3 @@
-//
-// Created by romip on 4/17/2021.
-//
-
 #include "core/Player.h"
 #include <iostream>
 #include <core/Game.h>
@@ -11,23 +7,14 @@ namespace garbage {
     Player::Player(string name, Board* board):name{name}, board{board}, is_playable{false},
                         was_discarded{false}, has_started{false}, is_winner{false}, is_rank_jack{false} {
     }
-    Player::Player():name{""}, board{new Board(1)} {
 
-    }
+    Player::Player():name{""}, board{new Board(1)} {}
+
     void Player::add_card(Card card) {
         hand.push_back(card);
     }
+
     void Player::print(ostream& out) {  //Cinder
-        //out<<name<<": ";
-        /*if (is_playable) {
-            out<<"Card to be played is "<<to_be_played<<": ";
-        }*/
-        /*for (size_t i = 0; i < hand.size(); i++) {
-            if (i != 0) {
-                out<<", ";
-            }
-            out<<hand[i];
-        }*/
         out<<name<<": ";
         if (is_winner) {
             out<<" has won";
@@ -46,11 +33,9 @@ namespace garbage {
         }
         out<<endl;
     }
+
     void Player::print_summary(ostream& out) {
         out<<name<<": ";
-        /*if (is_playable) {
-            out<<"Card to be played is "<<to_be_played<<": ";
-        }*/
         for (size_t i = 0; i < hand.size(); i++) {
             if (i != 0) {
                 out<<", ";
@@ -74,6 +59,7 @@ namespace garbage {
         }
         out<<endl;
     }
+
     void Player::turn() {
         Card card = board->draw();
         card.set_face_up(true);
@@ -102,19 +88,19 @@ namespace garbage {
             card.set_face_up(true);
             std::cout<<name<<" is playing "<<card<<std::endl;
             //if same rank, then stop
-            /*if (card.get_rank_int() == hand[selected_rank - 1].get_rank_int()) {
-                break;
-            }*/
         }
         card.set_face_up(false);
         board->discard_card(card);
     }
+
     string Player::get_name() {
         return name;
     }
+
     bool Player::is_face_up(size_t rank) {
         return hand[rank - 1].get_face_up();
     }
+
     bool Player::is_game_over() {
         //iterate over hand
         for (size_t i = 0; i < hand.size(); i++) {
@@ -126,6 +112,7 @@ namespace garbage {
         is_winner = true;
         return true;
     }
+
     bool Player::step() {
         was_discarded = false;
         has_started = true;
@@ -137,10 +124,6 @@ namespace garbage {
             is_playable = true;
             size_t selected_rank = card.get_rank_int(); //get the rank of the card
             if (card.get_rank_int() == 11) {    //jack / wild card
-                //keeping track if the card is face up or face down (face up if it gets replaced)
-                //selected_rank = board->select_best_rank(name);
-                //is_rank_jack = true;
-                //discarded_card = card;  //stores Jack temporarily
                 std::cout<<"Jack should not be played from this point"<<std::endl;
             } else if (hand[selected_rank - 1].get_face_up() &&
                   (hand[selected_rank - 1].get_rank_int() != 11)) {
@@ -154,10 +137,7 @@ namespace garbage {
                 if (card.get_rank_int() == 11) {
                     is_rank_jack = true;
                 }
-                //print(cout);
                 card.set_face_up(true);
-                //std::cout<<name<<" is playing "<<card<<std::endl;
-                //std::cout<<"player line 128: "<<is_rank_jack<<" "<<card<<" "<<is_playable<<std::endl;
             }
         }
         if (is_winner) {
@@ -181,10 +161,9 @@ namespace garbage {
             card.set_face_up(false);
             board->discard_card(card);
         }
-        //std::cout<<"player line 155: "<<name<<" is playable"<<is_playable<<" is jack: "<<is_rank_jack
-        //<<" was discarded: "<<was_discarded<<" to be played: "<<to_be_played<<std::endl;
         return !is_playable;    //turn is over
     }
+
     Card Player::next_card() {  //for printing card to be drawn
         if (is_playable) {
             return to_be_played;
@@ -195,14 +174,16 @@ namespace garbage {
         is_playable = true;
         return to_be_played;
     }
+
     bool Player::is_jack() {
         return is_rank_jack;
     }
+
     bool Player::is_rank_good(size_t rank) {
         //if rank face down
-        std::cout<<"player line 172: "<<rank<<" "<<hand[rank - 1].get_face_up()<<std::endl;
         return (!hand[rank - 1].get_face_up());
     }
+
     void Player::place_jack(size_t rank) {
         Card jack = to_be_played;
         to_be_played = hand[rank - 1]; //card that was replaced on the board
@@ -214,6 +195,7 @@ namespace garbage {
         std::cout<<name<<" play jack next card is "<<to_be_played<<std::endl;
         is_rank_jack = to_be_played.get_rank_int() == 11;
     }
+
     void Player::get_summary(Card* hand) {
         for (size_t i = 0; i < 10; i++) {
             hand[i] = this->hand[i];
@@ -224,4 +206,5 @@ namespace garbage {
             hand[10] = Card();
         }
     }
+
 }

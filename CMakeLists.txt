@@ -73,7 +73,7 @@ ci_make_app(
 ci_make_app(
         APP_NAME        garbage-test
         CINDER_PATH     ${CINDER_PATH}
-        SOURCES         tests/test_main.cc ${SOURCE_FILES} ${TEST_FILES}
+        SOURCES         tests/game_test.cc ${SOURCE_FILES} ${TEST_FILES}
         INCLUDES        include
         LIBRARIES       catch2
 )

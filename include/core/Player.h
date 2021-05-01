@@ -1,9 +1,5 @@
-//
-// Created by romip on 4/17/2021.
-//
-
-#ifndef NAIVE_BAYES_PLAYER_H
-#define NAIVE_BAYES_PLAYER_H
+#ifndef GARBAGE_PLAYER_H
+#define GARBAGE_PLAYER_H
 #include <string>
 #include <core/Card.h>
 using std::string;
@@ -41,4 +37,4 @@ namespace garbage {
     };
 }
 
-#endif //NAIVE_BAYES_PLAYER_H
+#endif //GARBAGE_PLAYER_H

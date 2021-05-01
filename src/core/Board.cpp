@@ -1,9 +1,4 @@
-//
-// Created by romip on 4/17/2021.
-//
-
 #include "core/Board.h"
-#include <core/Player.h>
 #include <stdexcept>
 #include <time.h>
 using std::vector;
@@ -13,6 +8,7 @@ namespace garbage {
         srand(seed);    //seed random function
         std::cout<<"seed = "<<seed<<std::endl;
     }
+
     Board::Board():Board((size_t) time(NULL)) {}
 
     void Board::add_players(vector<Player*> players, size_t num_decks) {
@@ -29,12 +25,13 @@ namespace garbage {
         this->shuffle();
         current_player = players.size() - 1;
     }
+
     void Board::add_players(vector<Player*> players) {
         add_players(players, players.size() / 2);
     }
+
     //stock pile deck of cards
     void Board::get_deck(size_t num_decks) {
-        //size_t num_decks = players.size() / 2;
         //clear stock
         stock.clear();
         //iterating over number of decks
@@ -63,6 +60,7 @@ namespace garbage {
             }
         }
     }
+
     void Board::shuffle() {
         //shuffle 100 times
         for (size_t i = 0; i < 100; i++) {
@@ -76,8 +74,8 @@ namespace garbage {
             }
         }
     }
+
     Card Board::draw() {
-        std::cout<<"board line 79 draw: "<<stock.size()<<", "<<discard.size()<<std::endl;
         if (stock.empty()) {
             stock = discard;
             discard.empty();    //clear the discard
@@ -87,16 +85,17 @@ namespace garbage {
         stock.pop_back();                   //remove last card from stock
         return card;
     }
+
     void Board::print(ostream& out, size_t player_num) {
-        //for (size_t i = 0; i < players.size(); i++) {
-            players[player_num]->print(out);
-        //}
+        players[player_num]->print(out);
     }
+
     void Board::print(ostream& out) {
         for (size_t i = 0; i < players.size(); i++) {
             players[i]->print_summary(out);
         }
     }
+
     bool Board::turn() {
         for (size_t i = 0; i < players.size(); i++) {
             players[i]->turn();
@@ -108,16 +107,13 @@ namespace garbage {
         }
         return false;
     }
+
     size_t Board::select_best_rank() { //for jacks
         //checks for first face down
         vector<size_t> count(10, 0);    //array of 10 zeros
         //iterate through players
         Player* this_player = players[current_player];
         for (size_t i = 0; i < players.size(); i++) {
-            /*if (players[i]->get_name() == for_player) {
-                this_player = players[i];
-                continue;
-            }*/
             if (i == current_player) {
                 continue;
             }   //most frequently face up card is what we want
@@ -143,9 +139,11 @@ namespace garbage {
         }
         return max_idx + 1; //returns rank
     }
+
     void Board::discard_card(Card card) {
         discard.push_back(card);
     }
+
     void Board::start_game() {
         //dealing 10 cards face down to each player
         for (size_t i = 0; i < 10; i++) {
@@ -155,6 +153,7 @@ namespace garbage {
             }
         }
     }
+
     bool Board::step() {    //intermediate sequence of replacing cards
         if (is_done) {  //if done, go to next player
             current_player = (current_player + 1) % players.size();
@@ -173,6 +172,7 @@ namespace garbage {
         }
         return is_done;
     }
+
     bool Board::is_over() {
         for (size_t i = 0; i < players.size(); i++) {
             if (players[i]->is_game_over()) {
@@ -181,6 +181,7 @@ namespace garbage {
         }
         return false;
     }
+
     string Board::game_summary() {
         for (size_t i = 0; i < players.size(); i++) {
             if (players[i]->is_game_over()) {
@@ -189,19 +190,23 @@ namespace garbage {
         }
         return "no winner yet";
     }
+
     bool Board::is_jack() {
-        std::cout<<"board line 182: "<<current_player<<" "<<players[current_player]->is_jack()<<std::endl;
         return players[current_player]->is_jack();
     }
+
     void Board::place_jack(size_t rank) {
         players[current_player]->place_jack(rank);
     }
+
     bool Board::is_rank_good(size_t rank) {
         return players[current_player]->is_rank_good(rank);
     }
+
     void Board::get_summary(Card* hand, size_t player_num) {
         players[player_num]->get_summary(hand);
     }
+
     Card Board::get_last_discard() {
         if (discard.empty()) {
             return Card();  //game has not started yet (no cards in discard)
@@ -209,4 +214,5 @@ namespace garbage {
             return discard[discard.size() - 1]; //last discarded card
         }
     }
+
 }

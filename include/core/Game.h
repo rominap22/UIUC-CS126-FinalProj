@@ -1,9 +1,5 @@
-//
-// Created by romip on 4/17/2021.
-//
-
-#ifndef NAIVE_BAYES_GAME_H
-#define NAIVE_BAYES_GAME_H
+#ifndef GARBAGE_GAME_H
+#define GARBAGE_GAME_H
 #include <core/Player.h>
 #include <core/Card.h>
 #include <core/Board.h>
@@ -33,4 +29,4 @@ namespace garbage {
 }
 
 
-#endif //NAIVE_BAYES_GAME_H
+#endif //GARBAGE_GAME_H

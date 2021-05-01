@@ -1,9 +1,8 @@
+#define CATCH_CONFIG_MAIN
 #include <catch2/catch.hpp>
-
 #include <core/Card.h>
 #include <sstream>
 #include <core/Board.h>
-#include <core/Player.h>
 #include <core/Game.h>
 using std::stringstream;
 namespace garbage {
@@ -145,6 +144,26 @@ namespace garbage {
         players[next]->print_summary(ss);
         REQUIRE(ss.str() == "Player 2:  J S,  2 H,  3 D,  4 C,  5 C,  J C,  7 H,  J D,  9 C, 10 S has won\n");
     }
+    TEST_CASE("Player step") {
+        Board *board = new Board(1);
+        Player *player1 = new Player("Player 1", board);
+        Player *player2 = new Player("Player 2", board);
+        vector<Player *> players;
+        players.push_back(player1);
+        players.push_back(player2);
+        board->add_players(players, players.size() / 2);
+        board->start_game();
+        REQUIRE(player1->step() == false);
+        stringstream ss;
+        player1->print_summary(ss);
+        REQUIRE(ss.str() == "Player 1: ___, ___, ___, ___, ___,  6 S, ___, ___, ___, ___ Card to be played:  9 D\n");
+        while (!player1->step()) {
+        }
+        stringstream ss1;
+        player1->print_summary(ss1);
+        REQUIRE(ss1.str() == "Player 1: ___, ___, ___, ___, ___,  6 S, ___, ___,  9 D, 10 H Turn over. Could not play  K S\n");
+    }
+    //BOARD TESTS
     TEST_CASE("Board less than 2 players") {
         Board *board = new Board(1);
         Player *player1 = new Player("Player 1", board);
@@ -237,9 +256,7 @@ namespace garbage {
         board->add_players(players, 1);
         board->start_game();
         size_t next = players.size() - 1;    //index of next player
-        //while (!player1->is_game_over() && !player2->is_game_over() && !player3->is_game_over()
-          //      && !player4->is_game_over()) {
-          for (size_t i = 0; i < 9; i++) {
+        for (size_t i = 0; i < 9; i++) {
             next = (next + 1) % players.size();    //increment player / alternate (to avoid 0 for next)
             players[next]->turn();      //next points to last player
             players[next]->print(std::cout);
@@ -249,15 +266,6 @@ namespace garbage {
         next = (next + 1) % players.size();    //increment player / alternate (to avoid 0 for next)
         players[next]->print(std::cout);
         std::cout<<next<<" "<<players[next]<<std::endl;
-        //players[next]->turn();      //next points to last player
-        //require that all are face up for the winning player
-        /*for (size_t rank = 1; rank <= 10; rank++) {
-            REQUIRE(players[next]->is_face_up(rank) == true);
-        }
-        stringstream ss;
-        players[next]->print(ss);
-        REQUIRE(ss.str() == "Player 1:  A C,  2 D,  3 S,  4 S,  5 D,  6 C,  7 H,  8 S,  9 S, 10 H has won\n");
-    */
     }
     TEST_CASE("Select best rank") {
         Board *board = new Board(1);
@@ -291,6 +299,54 @@ namespace garbage {
         players[2]->print_summary(ss2);
         REQUIRE(ss2.str() == "Player 3:  J D,  2 C, ___,  4 S,  J C,  6 H, ___, ___, ___, ___\n");
     }
+    TEST_CASE("Board step") {
+        Board *board = new Board(1);
+        Player *player1 = new Player("Player 1", board);
+        Player *player2 = new Player("Player 2", board);
+        vector<Player*> players;
+        players.push_back(player1);
+        players.push_back(player2);
+        board->add_players(players, players.size() / 2);
+        board->start_game();
+
+        REQUIRE(board->step() == false);
+        stringstream ss;
+        board->print(ss);
+        REQUIRE(ss.str() == "Player 1: ___, ___, ___, ___, ___, ___, ___, ___, ___, ___ Card to be played:  6 S\n"
+                            "Player 2: ___, ___, ___, ___, ___, ___, ___, ___, ___, ___\n");
+        while (!board->step()) { //while turn is still going for one player
+        }
+        stringstream ss1;
+        board->print(ss1);
+        REQUIRE(ss1.str() == "Player 1: ___, ___, ___, ___, ___,  6 S, ___, ___,  9 D, 10 H Turn over. Could not play  K S\n"
+                             "Player 2: ___, ___, ___, ___, ___, ___, ___, ___, ___, ___\n");
+        board->step();
+        stringstream ss2;   ///player 2 does first turn
+        board->print(ss2);
+        REQUIRE(ss2.str() == "Player 1: ___, ___, ___, ___, ___,  6 S, ___, ___,  9 D, 10 H Turn over.\n"
+                             "Player 2: ___, ___, ___, ___, ___, ___, ___, ___, ___, ___ Card to be played:  7 H\n");
+        while (!board->step()) { //while turn is still going for one player
+        }
+        std::cout<<"line 386: "<<std::endl;
+        stringstream ss3;
+        board->print(ss3);
+        REQUIRE(ss3.str() == "Player 1: ___, ___, ___, ___, ___,  6 S, ___, ___,  9 D, 10 H Turn over.\n"
+                             "Player 2: ___, ___, ___, ___,  5 C, ___,  7 H, ___, ___, ___ Turn over. Could not play  Q H\n");
+        while (!board->is_over()) {
+            board->step();
+            if (board->is_jack()) {
+                board->place_jack(board->select_best_rank());
+            }
+        }
+        stringstream ss4;
+        board->print(ss4);
+        REQUIRE(ss4.str() == "Player 1:  A C,  2 C,  3 C, ___,  5 D,  6 S, ___,  8 C,  9 D, 10 H Turn over. Could not play  9 S\n"
+                             "Player 2:  J S,  2 H,  3 D,  4 C,  5 C,  J C,  7 H,  J D,  9 C, 10 S has won\n");
+        stringstream ss5;
+        ss5<<board->game_summary();
+        REQUIRE(ss5.str() == "Player 2 has won!");
+    }
+    //GAME TESTS
     TEST_CASE("Game print 2 players") {
         Game game(2, 1);
         stringstream ss;
@@ -366,85 +422,5 @@ namespace garbage {
         stringstream ss1;
         ss1<<game.game_summary();
         REQUIRE(ss1.str() == "Player 2 has won!");
-    }
-    TEST_CASE("Board step") {
-        Board *board = new Board(1);
-        Player *player1 = new Player("Player 1", board);
-        Player *player2 = new Player("Player 2", board);
-        vector<Player*> players;
-        players.push_back(player1);
-        players.push_back(player2);
-        board->add_players(players, players.size() / 2);
-        board->start_game();
-
-        REQUIRE(board->step() == false);
-        stringstream ss;
-        board->print(ss);
-        REQUIRE(ss.str() == "Player 1: ___, ___, ___, ___, ___, ___, ___, ___, ___, ___ Card to be played:  6 S\n"
-                            "Player 2: ___, ___, ___, ___, ___, ___, ___, ___, ___, ___\n");
-        while (!board->step()) { //while turn is still going for one player
-        }
-        stringstream ss1;
-        board->print(ss1);
-        REQUIRE(ss1.str() == "Player 1: ___, ___, ___, ___, ___,  6 S, ___, ___,  9 D, 10 H Turn over. Could not play  K S\n"
-                             "Player 2: ___, ___, ___, ___, ___, ___, ___, ___, ___, ___\n");
-        board->step();
-        stringstream ss2;   ///player 2 does first turn
-        board->print(ss2);
-        REQUIRE(ss2.str() == "Player 1: ___, ___, ___, ___, ___,  6 S, ___, ___,  9 D, 10 H Turn over.\n"
-                             "Player 2: ___, ___, ___, ___, ___, ___, ___, ___, ___, ___ Card to be played:  7 H\n");
-        while (!board->step()) { //while turn is still going for one player
-        }
-        std::cout<<"line 386: "<<std::endl;
-        stringstream ss3;
-        board->print(ss3);
-        REQUIRE(ss3.str() == "Player 1: ___, ___, ___, ___, ___,  6 S, ___, ___,  9 D, 10 H Turn over.\n"
-                             "Player 2: ___, ___, ___, ___,  5 C, ___,  7 H, ___, ___, ___ Turn over. Could not play  Q H\n");
-        /*std::cout<<"!!!!!!!!!!!!!!!!!"<<board->step()<<std::endl;
-        std::cout<<"!!!!!!!!!!!!!!!!!"<<board->step()<<std::endl;
-        std::cout<<"!!!!!!!!!!!!!!!!!"<<board->step()<<std::endl;
-        std::cout<<"!!!!!!!!!!!!!!!!!"<<board->step()<<std::endl;
-        std::cout<<"!!!!!!!!!!!!!!!!!"<<board->step()<<std::endl;
-        std::cout<<"!!!!!!!!!!!!!!!!!"<<board->step()<<std::endl;
-        std::cout<<"!!!!!!!!!!!!!!!!!"<<board->step()<<std::endl;
-        stringstream ss6;
-        board->print(ss6);
-        REQUIRE(ss6.str() == "");*/
-        while (!board->is_over()) {
-            //for (size_t i = 0; i < 10; i++) {
-
-            board->step();
-            if (board->is_jack()) {
-                board->place_jack(board->select_best_rank());
-            }
-            //board->print(std::cout);
-            //std::cout<<"line 392 test case board step: "<<board->is_over()<<std::endl;
-        }
-        stringstream ss4;
-        board->print(ss4);
-        REQUIRE(ss4.str() == "Player 1:  A C,  2 C,  3 C, ___,  5 D,  6 S, ___,  8 C,  9 D, 10 H Turn over. Could not play  9 S\n"
-                            "Player 2:  J S,  2 H,  3 D,  4 C,  5 C,  J C,  7 H,  J D,  9 C, 10 S has won\n");
-        stringstream ss5;
-        ss5<<board->game_summary();
-        REQUIRE(ss5.str() == "Player 2 has won!");
-    }
-    TEST_CASE("Player step") {
-        Board *board = new Board(1);
-        Player *player1 = new Player("Player 1", board);
-        Player *player2 = new Player("Player 2", board);
-        vector<Player *> players;
-        players.push_back(player1);
-        players.push_back(player2);
-        board->add_players(players, players.size() / 2);
-        board->start_game();
-        REQUIRE(player1->step() == false);
-        stringstream ss;
-        player1->print_summary(ss);
-        REQUIRE(ss.str() == "Player 1: ___, ___, ___, ___, ___,  6 S, ___, ___, ___, ___ Card to be played:  9 D\n");
-        while (!player1->step()) {
-        }
-        stringstream ss1;
-        player1->print_summary(ss1);
-        REQUIRE(ss1.str() == "Player 1: ___, ___, ___, ___, ___,  6 S, ___, ___,  9 D, 10 H Turn over. Could not play  K S\n");
     }
 }

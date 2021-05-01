@@ -10,10 +10,6 @@ namespace garbage {
 
 namespace visualizer {
 
-/**
- * Allows a user to draw a digit on a sketchpad and uses Naive Bayes to
- * classify it.
- */
 class GameApp : public ci::app::App {
  public:
   GameApp();
@@ -37,7 +33,7 @@ class GameApp : public ci::app::App {
   bool request_jack;
   bool invalid_jack;
   std::shared_ptr<ci::gl::Texture2d> mTex[4][13];
-    std::shared_ptr<ci::gl::Texture2d> back;
+    std::shared_ptr<ci::gl::Texture2d> back;    //reverse (face down) side of card
   //ci::gl::Texture2dRef mTex;
   ci::Rectf rect_p1[11];
   ci::Rectf rect_p2[11];
