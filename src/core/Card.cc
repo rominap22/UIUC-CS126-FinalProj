@@ -2,7 +2,7 @@
 #include <sstream>
 #include <iomanip>
 using std::stringstream;
-namespace naivebayes {
+namespace garbage {
 
 
     Card::Card(size_t rank, SUITS suits):rank{rank}, suits{suits}, is_face_up{false} {
@@ -66,4 +66,4 @@ namespace naivebayes {
     void Card::print(ostream& out) {
         out<<std::setw(2)<<get_rank()<<" "<<get_suit()[0];   //e.g. "K C" if King of Clubs
     }
-}  // namespace naivebayes
+}  // namespace garbage

@@ -8,7 +8,7 @@
 #include <core/Card.h>
 using std::string;
 using std::vector;
-namespace naivebayes {
+namespace garbage {
     class Board;
     class Player {
     public:

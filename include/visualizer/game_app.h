@@ -3,10 +3,10 @@
 #include "cinder/app/App.h"
 #include "cinder/app/RendererGl.h"
 #include "cinder/gl/gl.h"
-#include "sketchpad.h"
+#include "game_board.h"
 #include <core/Game.h>
 
-namespace naivebayes {
+namespace garbage {
 
 namespace visualizer {
 
@@ -111,4 +111,4 @@ class GameApp : public ci::app::App {
 
 }  // namespace visualizer
 
-}  // namespace naivebayes
+}  // namespace garbage

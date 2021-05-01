@@ -6,7 +6,7 @@
 using std::vector;
 using std::ostream;
 using std::string;
-namespace naivebayes {
+namespace garbage {
 
 class Card {
  public:
@@ -33,5 +33,5 @@ private:
     SUITS suits;
     bool is_face_up;
 };
-}  // namespace naivebayes
+}  // namespace garbage
 #endif //NAIVE_BAYES_CARD_H

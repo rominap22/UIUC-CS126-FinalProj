@@ -6,11 +6,11 @@
 #define NAIVE_BAYES_BOARD_H
 #include <core/Card.h>
 #include <vector>
-//class naivebayes::Player;
+//class garbage::Player;
 #include <core/Player.h>
 #include <stdexcept>
 using std::vector;
-namespace naivebayes {
+namespace garbage {
     class Board {
     public:
         Board(size_t seed);

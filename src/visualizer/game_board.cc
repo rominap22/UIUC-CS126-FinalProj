@@ -1,6 +1,6 @@
-#include <visualizer/sketchpad.h>
+#include <visualizer/game_board.h>
 
-namespace naivebayes {
+namespace garbage {
 
 namespace visualizer {
 
@@ -25,4 +25,4 @@ void Sketchpad::Clear() {
 
 }  // namespace visualizer
 
-}  // namespace naivebayes
+}  // namespace garbage

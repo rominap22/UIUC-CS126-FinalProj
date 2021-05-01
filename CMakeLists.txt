@@ -56,22 +56,22 @@ list(APPEND CORE_SOURCE_FILES src/core/Card.cc
 
 list(APPEND SOURCE_FILES    ${CORE_SOURCE_FILES}
         src/visualizer/game_app.cc
-                            src/visualizer/sketchpad.cc)
+        src/visualizer/game_board.cc)
 
 list(APPEND TEST_FILES tests/game_test.cc)
 
-add_executable(train-model apps/Play_Game_Main.cc ${CORE_SOURCE_FILES})
-target_include_directories(train-model PRIVATE include)
+add_executable(garbage-console apps/Play_Game_Main.cc ${CORE_SOURCE_FILES})
+target_include_directories(garbage-console PRIVATE include)
 
 ci_make_app(
-        APP_NAME        sketchpad-classifier
+        APP_NAME        garbage-cinder
         CINDER_PATH     ${CINDER_PATH}
         SOURCES         apps/cinder_app_main.cc ${SOURCE_FILES}
         INCLUDES        include
 )
 
 ci_make_app(
-        APP_NAME        naive-bayes-test
+        APP_NAME        garbage-test
         CINDER_PATH     ${CINDER_PATH}
         SOURCES         tests/test_main.cc ${SOURCE_FILES} ${TEST_FILES}
         INCLUDES        include
@@ -79,5 +79,5 @@ ci_make_app(
 )
 
 if(MSVC)
-    set_property(TARGET naive-bayes-test APPEND_STRING PROPERTY LINK_FLAGS " /SUBSYSTEM:CONSOLE")
+    set_property(TARGET garbage-test APPEND_STRING PROPERTY LINK_FLAGS " /SUBSYSTEM:CONSOLE")
 endif()

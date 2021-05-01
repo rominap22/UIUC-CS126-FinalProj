@@ -1,5 +1,5 @@
 #include <visualizer/game_app.h>
-namespace naivebayes {
+namespace garbage {
 
 namespace visualizer {
 
@@ -227,4 +227,4 @@ void GameApp::keyDown(ci::app::KeyEvent event) {
 
 }  // namespace visualizer
 
-}  // namespace naivebayes
+}  // namespace garbage

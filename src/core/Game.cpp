@@ -10,7 +10,7 @@
 #include <sstream>
 using std::vector;
 using std::stringstream;
-namespace naivebayes {
+namespace garbage {
     Game::Game(size_t num_players):Game(num_players, (size_t) time(NULL)) {
     }
     Game::Game():Game(2) {

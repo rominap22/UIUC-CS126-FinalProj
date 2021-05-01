@@ -7,7 +7,7 @@
 #include <core/Game.h>
 using std::cout;
 using std::endl;
-namespace naivebayes {
+namespace garbage {
     Player::Player(string name, Board* board):name{name}, board{board}, is_playable{false},
                         was_discarded{false}, has_started{false}, is_winner{false}, is_rank_jack{false} {
     }

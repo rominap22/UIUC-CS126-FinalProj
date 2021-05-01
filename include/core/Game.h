@@ -7,7 +7,7 @@
 #include <core/Player.h>
 #include <core/Card.h>
 #include <core/Board.h>
-namespace naivebayes {
+namespace garbage {
     class Game {
     public:
         Game(size_t num_players);

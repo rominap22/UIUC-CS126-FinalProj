@@ -2,7 +2,7 @@
 
 #include "cinder/gl/gl.h"
 
-namespace naivebayes {
+namespace garbage {
 
 namespace visualizer {
 
@@ -62,4 +62,4 @@ class Sketchpad {
 
 }  // namespace visualizer
 
-}  // namespace naivebayes
+}  // namespace garbage

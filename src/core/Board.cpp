@@ -7,7 +7,7 @@
 #include <stdexcept>
 #include <time.h>
 using std::vector;
-namespace naivebayes {
+namespace garbage {
     Board::Board(size_t seed):current_player{0}, is_done{true},
                             num_of_suits{4} { //forcing same random sequence
         srand(seed);    //seed random function

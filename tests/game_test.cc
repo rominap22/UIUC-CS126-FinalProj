@@ -6,7 +6,7 @@
 #include <core/Player.h>
 #include <core/Game.h>
 using std::stringstream;
-namespace naivebayes {
+namespace garbage {
     //CARD TESTS
     TEST_CASE("Card face up") {
         Card card(1, Card::SUITS::HEARTS);
