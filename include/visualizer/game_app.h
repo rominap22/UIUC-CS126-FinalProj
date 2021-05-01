@@ -16,7 +16,6 @@ class GameApp : public ci::app::App {
 
   void draw() override;
   void mouseDown(ci::app::MouseEvent event) override;
-  void mouseDrag(ci::app::MouseEvent event) override;
   void keyDown(ci::app::KeyEvent event) override;
   void handleKeys(size_t rank);
 
@@ -25,7 +24,7 @@ class GameApp : public ci::app::App {
   const size_t kImageDimension = 28;
 
  private:
-  Sketchpad sketchpad_;
+  GarbageBoard garbage_board;
   Game game;
   int current_prediction_ = -1;
   size_t selected;
@@ -33,16 +32,14 @@ class GameApp : public ci::app::App {
   bool request_jack;
   bool invalid_jack;
   std::shared_ptr<ci::gl::Texture2d> mTex[4][13];
-    std::shared_ptr<ci::gl::Texture2d> back;    //reverse (face down) side of card
-  //ci::gl::Texture2dRef mTex;
+  std::shared_ptr<ci::gl::Texture2d> back;    //reverse (face down) side of card
   ci::Rectf rect_p1[11];
   ci::Rectf rect_p2[11];
   ci::Rectf rect_discard;
   Card hand_p1[11];
   Card hand_p2[11];
+  //URL of reverse (face down) side of card
   char* back_url = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Card_back_01.svg/1200px-Card_back_01.svg.png";
-  //char* urls[52] = {"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/English_pattern_ace_of_clubs.svg/1200px-English_pattern_ace_of_clubs.svg.png",
-   //               "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Playing_card_club_2.svg/1200px-Playing_card_club_2.svg.png"};
    //Ace, 2-10, J, Q, K of clubs, diamonds, hearts, spades
   char* urls[4][13] = {
           {"https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Ace_of_clubs.svg/1024px-Ace_of_clubs.svg.png",

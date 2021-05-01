@@ -4,48 +4,20 @@ namespace garbage {
 namespace visualizer {
 
 GameApp::GameApp()
-    : sketchpad_(glm::vec2(kMargin, kMargin), kImageDimension,
+    : garbage_board(glm::vec2(kMargin, kMargin), kImageDimension,
                  kWindowSize - 2 * kMargin) {
   ci::app::setWindowSize((int) kWindowSize, (int) kWindowSize);
   selected = 0;
   is_selected = false;
   request_jack = false;
-    //auto img = ci::loadImage( ci::app::loadAsset(
-      //      "assets/JPEG/2C.jpg" ) );
-        //loadImage(cinder::loadUrl(your_url))
-    //char temp[200];
-    //char* url = "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Playing_card_%s_%d.svg/1200px-Playing_card_%s_%d.svg.png";
     for (size_t suit = 0; suit < 4; suit++) {
         for (size_t rank = 0; rank < 13; rank++) {
-            //string s;
-            /*switch (suit) {
-                case 0:
-                    s = "club";
-                    break;
-                case 1:
-                    s = "diamond";
-                    break;
-                case 2:
-                    s = "heart";
-                    break;
-                case 3:
-                    s = "spade";
-                    break;
-            }*/
-            //if (sprintf(temp, url, s.c_str(), (rank + 1)) < 0) {
-              //  perror("sprintf");
-            //}  //temp becomes url
-            //auto img = ci::loadImage(cinder::loadUrl(temp));
             auto img = ci::loadImage(cinder::loadUrl(urls[suit][rank]));
             mTex[suit][rank] = ci::gl::Texture2d::create(img);
         }
     }
     auto img_back = ci::loadImage(cinder::loadUrl(back_url));
     back = ci::gl::Texture2d::create(img_back);
-    //auto img = ci::loadImage(cinder::loadUrl(
-      //      "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Playing_card_club_2.svg/1200px-Playing_card_club_2.svg.png"));
-    //mTex = ci::gl::Texture2d::create(img);
-    //rect = ci::RectT<ci::gl::Texture2dRef>(mTex);
     //set each player's board
     for (size_t i = 0; i < 10; i++) {   //+ 1 to avoid multiplying by 0 and not moving from edge
         rect_p1[i].set((float) (kMargin + 1) * (i + 1),
@@ -78,8 +50,6 @@ void GameApp::draw() {
   ci::Color8u background_color(	212, 235, 242);  // light blue
   ci::gl::clear(background_color);
 
-  sketchpad_.Draw();
-
   ci::gl::drawStringCentered(
       "Let's Play Garbage!",
       glm::vec2(kWindowSize / 2, kMargin), ci::Color("black"),
@@ -87,7 +57,7 @@ void GameApp::draw() {
 
   ci::gl::drawStringCentered(
           "2-player game",
-      glm::vec2(kWindowSize / 2, 2 * kMargin), ci::Color("blue"),
+      glm::vec2(kWindowSize / 2, 1.5 * kMargin), ci::Color("blue"),
           ci::Font("Arial", 20));
     ci::gl::drawStringCentered(
             game.to_string(0),
@@ -112,11 +82,8 @@ void GameApp::draw() {
                     "invalid location of jack. You must select a face down card location (0 for 10)",
                     glm::vec2(kWindowSize / 2, kMargin * 9), ci::Color("blue"),
                     ci::Font("Arial", 35));
-            //invalid_jack = false;
         }
     }
-    //ci::gl::draw(mTex);
-    //ci::gl::draw(mTex, rect);
     game.get_summary(hand_p1, 0);
     game.get_summary(hand_p2, 1);
     for (size_t i = 0; i < 11; i++) {
@@ -149,17 +116,12 @@ void GameApp::draw() {
         size_t suit = discard.get_suit_int();
         ci::gl::draw(mTex[suit][rank - 1], rect_discard);
     }
-    //ci::app::getAssetPath("assets/2C.jpg");
-    //ci::gl::Texture texture = loadImage( loadAsset( "pictures/photo1.jpg" ) );
-    //ci::gl::Texture texture = ci::loadImage("C:\\Users\\romip\\Downloads\\cards_jpeg_zip\\JPEG\\2C.jpeg");
 }
 
 void GameApp::mouseDown(ci::app::MouseEvent event) {
-  sketchpad_.HandleBrush(event.getPos());
   if (!game.is_over() && !request_jack) {
       game.step();
       if (game.is_jack()) {
-          std::cout<<"line 60 game app: "<<game.is_jack()<<std::endl;
           request_jack = true;
           invalid_jack = false;
       }
@@ -167,11 +129,7 @@ void GameApp::mouseDown(ci::app::MouseEvent event) {
   draw();
 }
 
-void GameApp::mouseDrag(ci::app::MouseEvent event) {
-  sketchpad_.HandleBrush(event.getPos());
-}
 void GameApp::handleKeys(size_t rank) {
-    std::cout<<"game app line 71: "<<game.is_rank_good(rank)<<", rank = "<<rank<<std::endl;
     if (game.is_rank_good(rank) && request_jack) {
         selected = rank;
         is_selected = true;
@@ -182,17 +140,10 @@ void GameApp::handleKeys(size_t rank) {
     }
     draw();
 }
+
 void GameApp::keyDown(ci::app::KeyEvent event) {
   switch (event.getCode()) {
-    case ci::app::KeyEvent::KEY_RETURN:
-      // ask your classifier to classify the image that's currently drawn on the
-      // sketchpad and update current_prediction_
-      break;
-
-    case ci::app::KeyEvent::KEY_DELETE:
-      sketchpad_.Clear();
-      break;
-      case ci::app::KeyEvent::KEY_1:    //ace
+      case ci::app::KeyEvent::KEY_1:    //Ace
           handleKeys(1);
           break;
       case ci::app::KeyEvent::KEY_2:
