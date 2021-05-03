@@ -13,13 +13,29 @@ namespace visualizer {
 class GameApp : public ci::app::App {
  public:
   GameApp();
-
+  /**
+   * Draws cards and text on the app screen.
+   */
   void draw() override;
+  /**
+   * Plays the next card from the stock pile to the player hand.
+   * @param event mouse pressed by user
+   */
   void mouseDown(ci::app::MouseEvent event) override;
+  /**
+   * Handles each case for the numeric key the user presses.
+   * @param event key pressed by user
+   */
   void keyDown(ci::app::KeyEvent event) override;
+  /**
+   * Responds with replacing the player card at the designated position
+   * depending on which number key is pressed (0 for 10)
+   * @param rank as denoted by rank of the card / number entered by user for which
+   * rank to replace with Jack
+   */
   void handleKeys(size_t rank);
 
-  const double kWindowSize = 1500;  //was 875
+  const double kWindowSize = 1500;
   const double kMargin = 100;
   const size_t kImageDimension = 28;
 
