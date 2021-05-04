@@ -3,13 +3,13 @@ This project is for my final project of CS 126 at the University of Illinois at 
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-greenyellow.svg)
 
-![Garbage Demo Img](src/garbageimg.PNG)
 ## About
 The card game [Garbage](https://bicyclecards.com/how-to-play/trash/), alternatively called Trash, is what I recreated
 with this project in CLion, using C++ to program the game logic and displaying the graphics using Cinder. The below
 contents outline instructions assuming execution on Windows OS, but setup instructions work for both MacOS and
 Windows OS. This version of the game requires 2 players.
 
+![Garbage Demo Img](src/garbageimg.PNG)
 ## Dependencies
 * [Clion](https://www.jetbrains.com/clion/)
 * [Cinder](https://libcinder.org/)
