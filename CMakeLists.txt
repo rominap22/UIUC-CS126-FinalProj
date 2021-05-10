@@ -49,15 +49,18 @@ get_filename_component(APP_PATH "${CMAKE_CURRENT_SOURCE_DIR}/" ABSOLUTE)
 
 include("${CINDER_PATH}/proj/cmake/modules/cinderMakeApp.cmake")
 
-list(APPEND CORE_SOURCE_FILES src/core/rename_this_file.cc)
+list(APPEND CORE_SOURCE_FILES src/core/Card.cc
+                                src/core/Game.cpp
+                                src/core/Player.cpp
+                                src/core/Board.cpp)
 
 list(APPEND SOURCE_FILES    ${CORE_SOURCE_FILES}
-                            src/visualizer/naive_bayes_app.cc
+        src/visualizer/game_app.cc
                             src/visualizer/sketchpad.cc)
 
-list(APPEND TEST_FILES tests/rename_this_test_file.cc)
+list(APPEND TEST_FILES tests/game_test.cc)
 
-add_executable(train-model apps/train_model_main.cc ${CORE_SOURCE_FILES})
+add_executable(train-model apps/Play_Game_Main.cc ${CORE_SOURCE_FILES})
 target_include_directories(train-model PRIVATE include)
 
 ci_make_app(
