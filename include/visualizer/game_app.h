@@ -3,33 +3,44 @@
 #include "cinder/app/App.h"
 #include "cinder/app/RendererGl.h"
 #include "cinder/gl/gl.h"
-#include "sketchpad.h"
+#include "game_board.h"
 #include <core/Game.h>
 
-namespace naivebayes {
+namespace garbage {
 
 namespace visualizer {
 
-/**
- * Allows a user to draw a digit on a sketchpad and uses Naive Bayes to
- * classify it.
- */
 class GameApp : public ci::app::App {
  public:
   GameApp();
-
+  /**
+   * Draws cards and text on the app screen.
+   */
   void draw() override;
+  /**
+   * Plays the next card from the stock pile to the player hand.
+   * @param event mouse pressed by user
+   */
   void mouseDown(ci::app::MouseEvent event) override;
-  void mouseDrag(ci::app::MouseEvent event) override;
+  /**
+   * Handles each case for the numeric key the user presses.
+   * @param event key pressed by user
+   */
   void keyDown(ci::app::KeyEvent event) override;
+  /**
+   * Responds with replacing the player card at the designated position
+   * depending on which number key is pressed (0 for 10)
+   * @param rank as denoted by rank of the card / number entered by user for which
+   * rank to replace with Jack
+   */
   void handleKeys(size_t rank);
 
-  const double kWindowSize = 1500;  //was 875
+  const double kWindowSize = 1500;
   const double kMargin = 100;
   const size_t kImageDimension = 28;
 
  private:
-  Sketchpad sketchpad_;
+  GarbageBoard garbage_board;
   Game game;
   int current_prediction_ = -1;
   size_t selected;
@@ -37,16 +48,14 @@ class GameApp : public ci::app::App {
   bool request_jack;
   bool invalid_jack;
   std::shared_ptr<ci::gl::Texture2d> mTex[4][13];
-    std::shared_ptr<ci::gl::Texture2d> back;
-  //ci::gl::Texture2dRef mTex;
+  std::shared_ptr<ci::gl::Texture2d> back;    //reverse (face down) side of card
   ci::Rectf rect_p1[11];
   ci::Rectf rect_p2[11];
   ci::Rectf rect_discard;
   Card hand_p1[11];
   Card hand_p2[11];
+  //URL of reverse (face down) side of card
   char* back_url = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Card_back_01.svg/1200px-Card_back_01.svg.png";
-  //char* urls[52] = {"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/English_pattern_ace_of_clubs.svg/1200px-English_pattern_ace_of_clubs.svg.png",
-   //               "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Playing_card_club_2.svg/1200px-Playing_card_club_2.svg.png"};
    //Ace, 2-10, J, Q, K of clubs, diamonds, hearts, spades
   char* urls[4][13] = {
           {"https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Ace_of_clubs.svg/1024px-Ace_of_clubs.svg.png",
@@ -111,4 +120,4 @@ class GameApp : public ci::app::App {
 
 }  // namespace visualizer
 
-}  // namespace naivebayes
+}  // namespace garbage

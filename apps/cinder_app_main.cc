@@ -1,6 +1,6 @@
 #include <visualizer/game_app.h>
 
-using naivebayes::visualizer::GameApp;
+using garbage::visualizer::GameApp;
 
 void prepareSettings(GameApp::Settings* settings) {
   settings->setResizable(false);

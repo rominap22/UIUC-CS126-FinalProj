@@ -2,10 +2,10 @@
 
 #include <core/Card.h>
 #include <core/Game.h>
-#include <core/Player.h>
-using namespace naivebayes;
+using namespace garbage;
     int main() {
-        naivebayes::Game game(6, 1);
+        //sample game with 6 players that shows up step-by-step in the console
+        garbage::Game game(6, 1);
         std::cout<<game.to_string();
         std::cout<<"game begins: "<<std::endl;
         game.play_game();
