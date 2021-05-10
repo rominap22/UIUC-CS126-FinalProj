@@ -25,6 +25,7 @@ class Card {
     string get_suit() const;
     bool is_k_or_q();
     int get_rank_int();
+    int get_suit_int();
     void set_face_up(bool is_face_up);
     void print(ostream& out);   //shows card, either face up or face down
 private:

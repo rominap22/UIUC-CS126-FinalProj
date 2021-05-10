@@ -13,12 +13,19 @@ namespace naivebayes {
         Game(size_t num_players);
         Game();
         Game(size_t num_players, size_t seed);
+        string to_string(size_t player_num);
         string to_string();
+        void get_summary(Card* hand, size_t player_num);
         void play_game();
         bool turn();
         bool step();
         bool is_over();
         string game_summary();
+        bool is_jack();
+        void place_jack(size_t rank);
+        bool is_rank_good(size_t rank);
+        size_t select_best_rank();
+        Card get_last_discard();
     private:
         Board* board;
     };

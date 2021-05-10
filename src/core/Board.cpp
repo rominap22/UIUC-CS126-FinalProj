@@ -76,6 +76,7 @@ namespace naivebayes {
         }
     }
     Card Board::draw() {
+        std::cout<<"board line 79 draw: "<<stock.size()<<", "<<discard.size()<<std::endl;
         if (stock.empty()) {
             stock = discard;
             discard.empty();    //clear the discard
@@ -85,9 +86,14 @@ namespace naivebayes {
         stock.pop_back();                   //remove last card from stock
         return card;
     }
+    void Board::print(ostream& out, size_t player_num) {
+        //for (size_t i = 0; i < players.size(); i++) {
+            players[player_num]->print(out);
+        //}
+    }
     void Board::print(ostream& out) {
         for (size_t i = 0; i < players.size(); i++) {
-            players[i]->print(out);
+            players[i]->print_summary(out);
         }
     }
     bool Board::turn() {
@@ -101,16 +107,19 @@ namespace naivebayes {
         }
         return false;
     }
-    size_t Board::select_best_rank(string for_player) { //for jacks
+    size_t Board::select_best_rank() { //for jacks
         //checks for first face down
         vector<size_t> count(10, 0);    //array of 10 zeros
         //iterate through players
-        Player* this_player;
+        Player* this_player = players[current_player];
         for (size_t i = 0; i < players.size(); i++) {
-            if (players[i]->get_name() == for_player) {
+            /*if (players[i]->get_name() == for_player) {
                 this_player = players[i];
                 continue;
-            }
+            }*/
+            if (i == current_player) {
+                continue;
+            }   //most frequently face up card is what we want
             for (size_t rank = 1; rank <= 10; rank++) { //counting all face up cards minus our own
                 if (players[i]->is_face_up(rank)) {
                     count[rank - 1]++;
@@ -149,6 +158,7 @@ namespace naivebayes {
         if (is_done) {  //if done, go to next player
             current_player = (current_player + 1) % players.size();
             players[current_player]->next_card();   //draws the next card
+
             is_done = false;
             return false;
         }
@@ -177,5 +187,25 @@ namespace naivebayes {
             }
         }
         return "no winner yet";
+    }
+    bool Board::is_jack() {
+        std::cout<<"board line 182: "<<current_player<<" "<<players[current_player]->is_jack()<<std::endl;
+        return players[current_player]->is_jack();
+    }
+    void Board::place_jack(size_t rank) {
+        players[current_player]->place_jack(rank);
+    }
+    bool Board::is_rank_good(size_t rank) {
+        return players[current_player]->is_rank_good(rank);
+    }
+    void Board::get_summary(Card* hand, size_t player_num) {
+        players[player_num]->get_summary(hand);
+    }
+    Card Board::get_last_discard() {
+        if (discard.empty()) {
+            return Card();  //game has not started yet (no cards in discard)
+        } else {
+            return discard[discard.size() - 1]; //last discarded card
+        }
     }
 }
